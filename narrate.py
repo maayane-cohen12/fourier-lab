@@ -1,7 +1,7 @@
 """Generate narration audio for each scene in SCRIPT.md using Kokoro TTS.
 
 Usage: .venv/Scripts/python.exe narrate.py
-Outputs: public/audio/scene1.wav ... scene5.wav
+Outputs: public/audio/scene1.wav ... scene10.wav (old sceneN.wav files are deleted first)
 """
 
 import re
@@ -17,7 +17,7 @@ OUT_DIR = ROOT / "public" / "audio"
 VOICE = "af_sarah"
 SPEED = 0.9
 LANG = "en-us"
-EXPECTED_LINES = 5
+EXPECTED_LINES = 10
 
 
 def read_narration(path: Path) -> list[str]:
@@ -42,6 +42,8 @@ def main() -> None:
     lines = read_narration(SCRIPT)
     kokoro = Kokoro(str(ROOT / "kokoro-v1.0.onnx"), str(ROOT / "voices-v1.0.bin"))
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    for old in OUT_DIR.glob("scene*.wav"):
+        old.unlink()
 
     total = 0.0
     for i, line in enumerate(lines, start=1):
