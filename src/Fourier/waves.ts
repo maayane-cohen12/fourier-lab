@@ -20,6 +20,10 @@ export const COLORS = {
   scan: "#c9d6f5",
   // 220, 440, 660 Hz
   components: ["#4d9fff", "#ff9f43", "#ff6fb5"],
+  // HowItFinds: the test sine, and product area above / below zero
+  test: "#7fe3ff",
+  areaPositive: "#5fe3a1",
+  areaNegative: "#ff6b6b",
 } as const;
 
 export const FONT_FAMILY =
@@ -210,3 +214,71 @@ export const plotPoint = (
   x: rect.left + u * rect.width,
   y: rect.centerY - value * (rect.halfHeight / MAX_SUM_AMPLITUDE),
 });
+
+/** SVG path for f over the plot, closed back along the baseline (for fills). */
+export const areaPath = (
+  f: (u: number) => number,
+  rect: PlotRect,
+  uEnd = 1,
+  stepsPerPlot = 600,
+): string => {
+  const line = wavePath(f, rect, 0, uEnd, stepsPerPlot);
+  const xEnd = rect.left + uEnd * rect.width;
+  return `${line}L${xEnd.toFixed(2)},${rect.centerY}L${rect.left},${rect.centerY}Z`;
+};
+
+// ---------------------------------------------------------------------------
+// HowItFinds: compare the sum with a test sine
+// ---------------------------------------------------------------------------
+
+/** A test sine at `freq` Hz, using the same cycles-per-plot mapping (220 Hz = 2). */
+export const testSine =
+  (freq: number, phase: number) =>
+  (u: number): number =>
+    Math.sin(2 * Math.PI * (freq / 110) * u + phase);
+
+/**
+ * Score of a test sine against the sum over u in [0, uEnd]: twice the
+ * average of their product over the whole plot. For a test that matches a
+ * component in frequency and phase, the full score is that component's
+ * amplitude; for a non-matching one it is close to zero.
+ */
+export const productScore = (
+  test: (u: number) => number,
+  uEnd = 1,
+  steps = 600,
+): number => {
+  const n = Math.max(1, Math.round(steps * uEnd));
+  let acc = 0;
+  for (let i = 0; i < n; i++) {
+    const u = ((i + 0.5) / n) * uEnd;
+    acc += sumValue(u) * test(u);
+  }
+  return (2 * acc * uEnd) / n;
+};
+
+/** Analysis plots sit below the dimmed component rows, leaving room for the meter. */
+export const ANALYSIS_PX_PER_UNIT = 60;
+export const ANALYSIS_PLOT_WIDTH = 1300;
+
+const analysisRect = (centerY: number): PlotRect => ({
+  left: ROW_PLOT_LEFT,
+  width: ANALYSIS_PLOT_WIDTH,
+  centerY,
+  halfHeight: ANALYSIS_PX_PER_UNIT * MAX_SUM_AMPLITUDE,
+});
+
+/** Sum wave with the test sine laid over it. */
+export const COMPARE_PLOT = analysisRect(660);
+/** Their product, with the area to zero shaded. */
+export const PRODUCT_PLOT = analysisRect(900);
+
+/** Vertical "score" meter to the right of the analysis plots. */
+export const METER = {
+  x: 1720,
+  width: 44,
+  top: 600,
+  zeroY: 940,
+  /** Score that fills the meter to the top. */
+  max: 0.7,
+} as const;

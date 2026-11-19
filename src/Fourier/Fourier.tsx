@@ -4,6 +4,7 @@ import { COLORS } from "./waves";
 import { MESSY_WAVE_DURATION, MessyWave } from "./scenes/MessyWave";
 import { SUM_OF_SINES_DURATION, SumOfSines } from "./scenes/SumOfSines";
 import { SPLIT_BACK_DURATION, SplitBack } from "./scenes/SplitBack";
+import { HOW_IT_FINDS_DURATION, HowItFinds } from "./scenes/HowItFinds";
 
 /** Scenes in order. Add new scenes here and they flow into the full video. */
 export const SCENES = [
@@ -14,6 +15,11 @@ export const SCENES = [
     duration: SUM_OF_SINES_DURATION,
   },
   { id: "SplitBack", component: SplitBack, duration: SPLIT_BACK_DURATION },
+  {
+    id: "HowItFinds",
+    component: HowItFinds,
+    duration: HOW_IT_FINDS_DURATION,
+  },
 ] as const;
 
 export const FOURIER_DURATION = SCENES.reduce((a, s) => a + s.duration, 0);
