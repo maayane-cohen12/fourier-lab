@@ -22,6 +22,7 @@ import {
 
 // Timeline (frames @ 30 fps)
 export const MESSY_WAVE_DURATION = 300; // ~10 s
+const WAVE_IN = [0, 15] as const; // wave fades in from the empty background
 const SUBTITLE_IN = 150; // 5 s
 const SLOW_START = 180; // start decelerating
 const STOP = 225; // wave at rest, exactly in scene-2 shape
@@ -71,6 +72,12 @@ export const MessyWave: React.FC = () => {
     [5, 4, SUM_OUTLINE_STROKE],
   );
   const glow = interpolate(dimT, [0, 1], [1, 0]);
+
+  // Intro ends on the empty background, so the wave fades in from nothing.
+  const waveIn = interpolate(frame, WAVE_IN, [0, 1], {
+    extrapolateLeft: "clamp",
+    extrapolateRight: "clamp",
+  });
 
   const titleOpacity =
     interpolate(frame, [0, 20], [0, 1], { extrapolateRight: "clamp" }) *
@@ -130,7 +137,11 @@ export const MessyWave: React.FC = () => {
 
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.background }}>
-      <svg width={WIDTH} height={HEIGHT} style={{ position: "absolute" }}>
+      <svg
+        width={WIDTH}
+        height={HEIGHT}
+        style={{ position: "absolute", opacity: waveIn }}
+      >
         <defs>
           <filter id="glow" x="-10%" y="-50%" width="120%" height="200%">
             <feGaussianBlur stdDeviation={GLOW_BLUR} />
