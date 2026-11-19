@@ -1,16 +1,18 @@
 import React from "react";
 import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from "remotion";
 import {
+  BASELINE_STROKE,
   COLORS,
+  GLOW_BLUR,
   FULLSCREEN_PLOT,
   HEIGHT,
-  ROW_LABEL_X,
   SUM_OUTLINE_OPACITY,
   SUM_OUTLINE_STROKE,
   SUM_ROW_PLOT,
   WIDTH,
   lerpRect,
   plotPoint,
+  rowLabelPosition,
   rowLabelStyle,
   subtitleStyle,
   sumValue,
@@ -131,7 +133,7 @@ export const MessyWave: React.FC = () => {
       <svg width={WIDTH} height={HEIGHT} style={{ position: "absolute" }}>
         <defs>
           <filter id="glow" x="-10%" y="-50%" width="120%" height="200%">
-            <feGaussianBlur stdDeviation="8" />
+            <feGaussianBlur stdDeviation={GLOW_BLUR} />
           </filter>
         </defs>
 
@@ -142,7 +144,7 @@ export const MessyWave: React.FC = () => {
           y1={rect.centerY}
           y2={rect.centerY}
           stroke={COLORS.axis}
-          strokeWidth={2}
+          strokeWidth={BASELINE_STROKE}
         />
 
         {/* sample stems: each stored number, measured from the baseline */}
@@ -194,10 +196,7 @@ export const MessyWave: React.FC = () => {
       <div
         style={{
           ...rowLabelStyle,
-          position: "absolute",
-          left: ROW_LABEL_X,
-          top: SUM_ROW_PLOT.centerY,
-          transform: "translateY(-50%)",
+          ...rowLabelPosition(SUM_ROW_PLOT.centerY),
           opacity: rowOpacity,
         }}
       >

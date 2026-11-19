@@ -15,9 +15,12 @@ export const COLORS = {
   text: "#e8eefc",
   textDim: "#8fa0c8",
   axis: "#2a3a66",
-  sum: "#7fe3ff",
+  sum: "#7fe3ff", // scene 1 wave and the faint Sum outline
+  sumTrace: "#ffffff", // the sum rebuilt from its parts in scene 2
   sample: "#ffd479",
-  components: ["#ff7a8a", "#8cf29a", "#b79bff"],
+  scan: "#c9d6f5",
+  // 220, 440, 660 Hz
+  components: ["#4d9fff", "#ff9f43", "#ff6fb5"],
 } as const;
 
 export const FONT_FAMILY =
@@ -46,6 +49,18 @@ export const rowLabelStyle: React.CSSProperties = {
   fontSize: 36,
   fontWeight: 600,
 };
+
+export const captionStyle: React.CSSProperties = {
+  fontFamily: FONT_FAMILY,
+  color: COLORS.text,
+  fontSize: 56,
+  fontWeight: 700,
+  textAlign: "center",
+};
+
+/** Blur radius of the glow under a highlighted wave. */
+export const GLOW_BLUR = 8;
+export const BASELINE_STROKE = 2;
 
 // ---------------------------------------------------------------------------
 // Wave math
@@ -79,7 +94,11 @@ export const sumValue = (u: number): number =>
 // Plot layout
 // ---------------------------------------------------------------------------
 
-/** A plot rectangle: x range [left, left + width], wave centered on centerY. */
+/**
+ * A plot rectangle: x range [left, left + width], wave centered on centerY.
+ * halfHeight is the pixel height of MAX_SUM_AMPLITUDE, so two rects with the
+ * same halfHeight share one vertical scale.
+ */
 export type PlotRect = {
   left: number;
   width: number;
@@ -103,18 +122,25 @@ export const FULLSCREEN_PLOT: PlotRect = {
   halfHeight: 300,
 };
 
-/** Scene 2 layout: three component rows and the Sum row, sharing x range. */
+/**
+ * Scene 2 layout: three component rows above the Sum row, sharing x range
+ * and ONE vertical scale (PX_PER_UNIT), so values can be compared and
+ * stacked across rows.
+ */
+export const PX_PER_UNIT = 55;
+export const ROW_HALF_HEIGHT = PX_PER_UNIT * MAX_SUM_AMPLITUDE;
 export const ROW_PLOT_LEFT = 300;
 export const ROW_PLOT_WIDTH = WIDTH - ROW_PLOT_LEFT - 100;
-export const ROW_HALF_HEIGHT = 80;
 export const ROW_LABEL_X = 80;
+/** Center x of the "+" / "=" operator column, left of the labels. */
+export const OPERATOR_X = 48;
 
 export const ROW_CENTERS = {
-  c220: 210,
-  c440: 420,
-  c660: 630,
-  sum: 880,
+  components: [200, 350, 490],
+  sum: 750,
 } as const;
+/** Divider line between the last component row and the Sum row. */
+export const DIVIDER_Y = 590;
 
 export const rowRect = (centerY: number): PlotRect => ({
   left: ROW_PLOT_LEFT,
@@ -124,6 +150,15 @@ export const rowRect = (centerY: number): PlotRect => ({
 });
 
 export const SUM_ROW_PLOT = rowRect(ROW_CENTERS.sum);
+export const COMPONENT_ROW_PLOTS = ROW_CENTERS.components.map(rowRect);
+
+/** Position of a row label, vertically centered on the row. */
+export const rowLabelPosition = (centerY: number): React.CSSProperties => ({
+  position: "absolute",
+  left: ROW_LABEL_X,
+  top: centerY,
+  transform: "translateY(-50%)",
+});
 
 /** Opacity of the Sum wave once it has settled as a faint outline in scene 2. */
 export const SUM_OUTLINE_OPACITY = 0.28;
@@ -134,19 +169,22 @@ export const SUM_OUTLINE_STROKE = 3;
 // ---------------------------------------------------------------------------
 
 /**
- * SVG path for f(u + shift) over the plot, u in [0, 1].
+ * SVG path for f(u + shift) over the plot, u in [0, uEnd] (uEnd < 1 draws
+ * the wave in partially, left to right).
  * f is assumed scaled so MAX_SUM_AMPLITUDE maps to rect.halfHeight.
  */
 export const wavePath = (
   f: (u: number) => number,
   rect: PlotRect,
   shift = 0,
-  steps = 600,
+  uEnd = 1,
+  stepsPerPlot = 600,
 ): string => {
   const k = rect.halfHeight / MAX_SUM_AMPLITUDE;
+  const steps = Math.max(1, Math.ceil(stepsPerPlot * uEnd));
   let d = "";
   for (let i = 0; i <= steps; i++) {
-    const u = i / steps;
+    const u = (i / steps) * uEnd;
     const x = rect.left + u * rect.width;
     const y = rect.centerY - f(u + shift) * k;
     d += `${i === 0 ? "M" : "L"}${x.toFixed(2)},${y.toFixed(2)}`;
