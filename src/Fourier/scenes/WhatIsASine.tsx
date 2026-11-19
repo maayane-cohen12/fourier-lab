@@ -19,19 +19,19 @@ import {
   sumValue,
   wavePath,
 } from "../waves";
+import { useSceneTiming } from "../narration/NarrationContext";
+import { checkCaptionHold } from "../narration/timing";
 
-// Timeline (frames @ 30 fps), synced to scene3.wav (~11 s):
-//   "a sine wave" ~2.4 s, "how fast it wiggles is its frequency" ~3.9 s,
-//   "how tall it is, its amplitude" ~7.8 s.
-// Frame 0 and the last frame are exactly MessyWave's last frame, so the cuts
-// MessyWave -> WhatIsASine -> SumOfSines are invisible.
-export const WHAT_IS_A_SINE_DURATION = 360; // 12 s
-const SINE_IN = [50, 90] as const;
-const FREQ_LABEL_IN = [112, 132] as const;
-const SPEED_UP = [135, 210] as const;
-const AMP_LABEL_IN = [228, 248] as const;
-const GROW = [250, 310] as const;
-const ALL_OUT = [318, 342] as const;
+// Timeline (frames @ 30 fps), synced to scene3.wav: the sine draws in on
+// "a sine wave", speeds up on "frequency" and grows on "amplitude", each with
+// its label. Frame 0 and the last frame are exactly MessyWave's last frame,
+// so the cuts MessyWave -> WhatIsASine -> SumOfSines are invisible.
+const SINE_IN_LENGTH = 40;
+const LABEL_FADE = 20;
+const SPEED_UP_LENGTH = 75;
+const GROW_LENGTH = 60;
+/** Fade back to MessyWave's last frame, anchored to the scene end (E). */
+const allOutRange = (E: number) => [E - 42, E - 18];
 
 /** The sine sits above the Sum row, on the same x range as the scene rows. */
 const SINE_RECT: PlotRect = {
@@ -50,23 +50,23 @@ const clamp = {
   extrapolateRight: "clamp",
 } as const;
 
-const speedUpAt = (f: number) =>
-  interpolate(f, SPEED_UP, [0, 1], {
+const speedUpAt = (f: number, speedUp: number[]) =>
+  interpolate(f, speedUp, [0, 1], {
     ...clamp,
     easing: Easing.inOut(Easing.cubic),
   });
-const cyclesAt = (f: number) =>
-  CYCLES[0] + (CYCLES[1] - CYCLES[0]) * speedUpAt(f);
+const cyclesAt = (f: number, speedUp: number[]) =>
+  CYCLES[0] + (CYCLES[1] - CYCLES[0]) * speedUpAt(f, speedUp);
 
 /**
  * Phase travelled so far (in cycles). The wave moves at a speed proportional
  * to its frequency, so it visibly wiggles faster after speeding up.
  * Summed frame by frame so it stays continuous while the frequency changes.
  */
-const phaseAt = (frame: number) => {
+const phaseAt = (frame: number, speedUp: number[]) => {
   let phase = 0;
   for (let f = 0; f < frame; f++) {
-    phase += TRAVEL * cyclesAt(f) * cyclesAt(f);
+    phase += TRAVEL * cyclesAt(f, speedUp) * cyclesAt(f, speedUp);
   }
   return phase;
 };
@@ -103,6 +103,28 @@ const MessyWaveEndFrame: React.FC = () => (
 
 export const WhatIsASine: React.FC = () => {
   const frame = useCurrentFrame();
+  const timing = useSceneTiming("WhatIsASine");
+  const sineAt = timing.cue("a sine wave").start;
+  const freqAt = timing.cue("frequency").start;
+  const ampAt = timing.cue("amplitude").start;
+  const SINE_IN = [sineAt, sineAt + SINE_IN_LENGTH];
+  const FREQ_LABEL_IN = [freqAt, freqAt + LABEL_FADE];
+  const SPEED_UP = [freqAt, freqAt + SPEED_UP_LENGTH];
+  const AMP_LABEL_IN = [ampAt, ampAt + LABEL_FADE];
+  const GROW = [ampAt, ampAt + GROW_LENGTH];
+  const ALL_OUT = allOutRange(timing.durationInFrames);
+  checkCaptionHold(
+    "WhatIsASine",
+    "frequency → pitch",
+    FREQ_LABEL_IN[1],
+    ALL_OUT[0],
+  );
+  checkCaptionHold(
+    "WhatIsASine",
+    "amplitude → loudness",
+    AMP_LABEL_IN[1],
+    ALL_OUT[0],
+  );
 
   const allOut = interpolate(frame, ALL_OUT, [1, 0], clamp);
   const sineIn = interpolate(frame, SINE_IN, [0, 1], {
@@ -122,8 +144,8 @@ export const WhatIsASine: React.FC = () => {
     easing: Easing.inOut(Easing.cubic),
   });
 
-  const cycles = cyclesAt(frame);
-  const phase = phaseAt(frame);
+  const cycles = cyclesAt(frame, SPEED_UP);
+  const phase = phaseAt(frame, SPEED_UP);
   const sine = (u: number) =>
     amplitude * Math.sin(2 * Math.PI * (cycles * u - phase));
 

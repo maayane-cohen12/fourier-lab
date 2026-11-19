@@ -22,42 +22,29 @@ import {
   testSine,
   wavePath,
 } from "../waves";
+import { useSceneTiming } from "../narration/NarrationContext";
+import { checkCaptionHold } from "../narration/timing";
 
-// Timeline (frames @ 30 fps)
-export const HOW_IT_FINDS_DURATION = 480; // ~16 s
+// Timeline (frames @ 30 fps), synced to scene6.wav: the analysis comes in on
+// "It tries one frequency"; the matching 440 Hz test slides in on "When they
+// match" and its meter is full (and stays full) until "the score is high" has
+// been said; the 300 Hz test starts on "When they don't" and its sweep ends as
+// "close to zero" is said. The rows come back at the end, matching SplitBack's
+// last frame again.
 const ROWS_DIM = [10, 35] as const;
-const ANALYSIS_IN = [25, 55] as const;
-const ANALYSIS_OUT = [380, 405] as const;
-const ROWS_UNDIM = [400, 435] as const;
 const ROWS_DIM_LEVEL = 0.2;
+const ANALYSIS_FADE = 30;
+const SLIDE_LENGTH = 20;
+const OUT_LENGTH = 14;
+const FULL_BEFORE_SAID = 10; // meter is full this long before the words end
 
 type Trial = {
   freq: number;
   phase: number;
-  slide: readonly [number, number]; // test sine slides into place
-  reveal: readonly [number, number]; // product drawn left to right
-  out: readonly [number, number]; // test + product fade, meter resets
+  slide: readonly number[]; // test sine slides into place
+  reveal: readonly number[]; // product drawn left to right
+  out: readonly number[]; // test + product fade, meter resets
 };
-
-const TRIALS: Trial[] = [
-  // Matches the 440 Hz component exactly (same frequency and phase).
-  {
-    freq: 440,
-    phase: COMPONENTS[1].phase,
-    slide: [60, 92],
-    reveal: [97, 187],
-    out: [205, 225],
-  },
-  // Does not match anything. 300 Hz is a non-whole number of cycles across
-  // the plot, so the final score depends on phase; 2.0 lands near zero.
-  {
-    freq: 300,
-    phase: 2.0,
-    slide: [228, 260],
-    reveal: [265, 355],
-    out: [ANALYSIS_OUT[0], ANALYSIS_OUT[1]],
-  },
-];
 
 /** How far the test sine is shifted before it slides into place (plot widths). */
 const SLIDE_DISTANCE = 0.6;
@@ -71,6 +58,37 @@ const labelStyle: React.CSSProperties = { ...rowLabelStyle, fontSize: 30 };
 
 export const HowItFinds: React.FC = () => {
   const frame = useCurrentFrame();
+  const timing = useSceneTiming("HowItFinds");
+  const E = timing.durationInFrames;
+  const analysisAt = timing.cue("It tries one frequency").start;
+  const ANALYSIS_IN = [analysisAt, analysisAt + ANALYSIS_FADE];
+  const ANALYSIS_OUT = [E - 60, E - 35];
+  const ROWS_UNDIM = [E - 40, E - 5];
+
+  const matchAt = timing.cue("When they match").start;
+  const highSaid = timing.cue("the score is high").end;
+  const noMatchAt = timing.cue("When they don't").start;
+  const zeroSaid = timing.cue("close to zero").end;
+  const TRIALS: Trial[] = [
+    // Matches the 440 Hz component exactly (same frequency and phase).
+    {
+      freq: 440,
+      phase: COMPONENTS[1].phase,
+      slide: [matchAt, matchAt + SLIDE_LENGTH],
+      reveal: [matchAt + SLIDE_LENGTH, highSaid - FULL_BEFORE_SAID],
+      // The full bar stays up until "the score is high" has been said.
+      out: [highSaid, Math.min(highSaid + OUT_LENGTH, noMatchAt - 1)],
+    },
+    // Does not match anything. 300 Hz is a non-whole number of cycles across
+    // the plot, so the final score depends on phase; 2.0 lands near zero.
+    {
+      freq: 300,
+      phase: 2.0,
+      slide: [noMatchAt, noMatchAt + SLIDE_LENGTH],
+      reveal: [noMatchAt + SLIDE_LENGTH, zeroSaid],
+      out: ANALYSIS_OUT,
+    },
+  ];
 
   const rowOpacity =
     frame < ROWS_UNDIM[0]
@@ -80,6 +98,15 @@ export const HowItFinds: React.FC = () => {
   const analysisOpacity =
     interpolate(frame, ANALYSIS_IN, [0, 1], clamp) *
     interpolate(frame, ANALYSIS_OUT, [1, 0], clamp);
+
+  for (const t of TRIALS) {
+    checkCaptionHold(
+      "HowItFinds",
+      `× test ${t.freq} Hz`,
+      t.slide[0] + 12,
+      t.out[0],
+    );
+  }
 
   // The trial on screen: the last one whose slide has begun.
   const trial = TRIALS.filter((t) => frame >= t.slide[0]).pop() ?? TRIALS[0];
@@ -214,7 +241,7 @@ export const HowItFinds: React.FC = () => {
               x={METER.x}
               y={METER.top}
               width={METER.width}
-              height={METER.zeroY - METER.top + 80}
+              height={METER.bottom - METER.top}
               rx={8}
               fill={COLORS.axis}
               opacity={0.45}
@@ -308,13 +335,21 @@ const Baseline: React.FC<{ rect: PlotRect }> = ({ rect }) => (
 );
 
 const MeterFill: React.FC<{ value: number }> = ({ value }) => {
-  const h = (value / METER.max) * (METER.zeroY - METER.top);
+  // Clamped to the track: the running score of the non-matching test dips to
+  // about -0.35 mid-sweep, deeper than the track goes below zero.
+  const h = Math.max(
+    -(METER.bottom - METER.zeroY - METER.inset),
+    Math.min(
+      METER.zeroY - METER.top - METER.inset,
+      (value / METER.max) * (METER.zeroY - METER.top),
+    ),
+  );
   if (Math.abs(h) < 0.5) return null;
   return (
     <rect
-      x={METER.x + 4}
+      x={METER.x + METER.inset}
       y={h > 0 ? METER.zeroY - h : METER.zeroY}
-      width={METER.width - 8}
+      width={METER.width - 2 * METER.inset}
       height={Math.abs(h)}
       rx={5}
       fill={h > 0 ? COLORS.areaPositive : COLORS.areaNegative}

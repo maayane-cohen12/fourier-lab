@@ -21,18 +21,22 @@ import {
   sumValue,
   wavePath,
 } from "../waves";
+import { useSceneTiming } from "../narration/NarrationContext";
+import { checkCaptionHold } from "../narration/timing";
 
-// Timeline (frames @ 30 fps), synced to scene10.wav (~8 s):
-//   "any sound is a sum of sine waves" ~1.4-3.5 s,
-//   "the Fourier transform tells us which ones" ~3.8 s, "how strong" ~6.6 s.
-export const RECAP_DURATION = 300; // 10 s
+// Timeline (frames @ 30 fps), synced to scene10.wav: the sum splits into its
+// sines and line 1 appears on "any sound is a sum of sine waves"; the bars
+// grow and line 2 appears on "the Fourier transform tells us which ones";
+// everything fades to the empty background at the end.
 const SUM_IN = [0, 12] as const;
-const SPLIT = [20, 75] as const;
-const BARS_GROW = [60, 105] as const;
+const SPLIT_LENGTH = 55;
+const BARS_LENGTH = 45;
 const BAR_STAGGER = 8;
-const LINE1_IN = [80, 100] as const;
-const LINE2_IN = [115, 135] as const;
-const FINAL_FADE = [276, 298] as const;
+const LINE_FADE = 20;
+const LINE2_DELAY = 10; // after the bars start
+const FINAL_FADE_LENGTH = 22; // ends 2 frames before the scene does
+const LINE1 = "Any sound = a sum of sine waves";
+const LINE2 = "Fourier transform → which frequencies, how strong";
 
 // Waves on the left, their spectrum bars on the right.
 const WAVE_LEFT = 120;
@@ -61,6 +65,17 @@ const rowRect = (centerY: number): PlotRect => ({
 
 export const Recap: React.FC = () => {
   const frame = useCurrentFrame();
+  const timing = useSceneTiming("Recap");
+  const E = timing.durationInFrames;
+  const splitAt = timing.cue("any sound is a sum of sine waves").start;
+  const barsAt = timing.cue("the Fourier transform tells us which ones").start;
+  const SPLIT = [splitAt, splitAt + SPLIT_LENGTH];
+  const LINE1_IN = [splitAt, splitAt + LINE_FADE];
+  const BARS_GROW = [barsAt, barsAt + BARS_LENGTH];
+  const LINE2_IN = [barsAt + LINE2_DELAY, barsAt + LINE2_DELAY + LINE_FADE];
+  const FINAL_FADE = [E - 2 - FINAL_FADE_LENGTH, E - 2];
+  checkCaptionHold("Recap", LINE1, LINE1_IN[1], FINAL_FADE[0]);
+  checkCaptionHold("Recap", LINE2, LINE2_IN[1], FINAL_FADE[0]);
 
   const fade = interpolate(frame, FINAL_FADE, [1, 0], clamp);
   const sumIn = interpolate(frame, SUM_IN, [0, 1], clamp);
@@ -194,7 +209,7 @@ export const Recap: React.FC = () => {
           transform: `translateY(${(1 - line1) * 20}px)`,
         }}
       >
-        Any sound = a sum of sine waves
+        {LINE1}
       </div>
       <div
         style={{
@@ -206,7 +221,7 @@ export const Recap: React.FC = () => {
           transform: `translateY(${(1 - line2) * 16}px)`,
         }}
       >
-        Fourier transform → which frequencies, how strong
+        {LINE2}
       </div>
     </AbsoluteFill>
   );

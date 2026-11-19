@@ -10,14 +10,16 @@ import {
   titleStyle,
   wavePath,
 } from "../waves";
+import { useSceneTiming } from "../narration/NarrationContext";
+import { checkCaptionHold } from "../narration/timing";
 
-// Timeline (frames @ 30 fps). Narration (scene1.wav) is ~6.8 s; the subtitle
-// lands on "how a computer takes a sound apart" (~4.3 s).
-export const INTRO_DURATION = 240; // 8 s
+// Timeline (frames @ 30 fps), synced to scene1.wav: the title and sine come in
+// with "Every sound you hear", the subtitle lands on "how a computer takes a
+// sound apart", and everything fades to the empty background at the end.
 const TITLE_IN = [8, 32] as const;
 const WAVE_DRAW = [24, 84] as const;
-const SUBTITLE_IN = [126, 146] as const;
-const FADE_OUT = [214, 236] as const;
+const SUBTITLE_FADE = 20;
+const FADE_OUT_LENGTH = 22; // ends 4 frames before the scene does
 
 /** The small sine under the title, in pixels. */
 const WAVE_RECT: PlotRect = {
@@ -44,6 +46,15 @@ const sine = (u: number) =>
 
 export const Intro: React.FC = () => {
   const frame = useCurrentFrame();
+  const timing = useSceneTiming("Intro");
+  const subtitleAt = timing.cue("how a computer takes a sound apart").start;
+  const SUBTITLE_IN = [subtitleAt, subtitleAt + SUBTITLE_FADE];
+  const FADE_OUT = [
+    timing.durationInFrames - 4 - FADE_OUT_LENGTH,
+    timing.durationInFrames - 4,
+  ];
+  checkCaptionHold("Intro", "The Fourier Transform", TITLE_IN[1], FADE_OUT[0]);
+  checkCaptionHold("Intro", "How a computer…", SUBTITLE_IN[1], FADE_OUT[0]);
 
   const fadeOut = interpolate(frame, FADE_OUT, [1, 0], clamp);
 

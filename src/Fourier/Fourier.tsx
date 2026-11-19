@@ -1,59 +1,115 @@
 import React from "react";
-import { AbsoluteFill, Series } from "remotion";
+import { AbsoluteFill, CalculateMetadataFunction, Series } from "remotion";
 import { COLORS } from "./waves";
-import { INTRO_DURATION, Intro } from "./scenes/Intro";
-import { MESSY_WAVE_DURATION, MessyWave } from "./scenes/MessyWave";
-import { WHAT_IS_A_SINE_DURATION, WhatIsASine } from "./scenes/WhatIsASine";
-import { SUM_OF_SINES_DURATION, SumOfSines } from "./scenes/SumOfSines";
-import { SPLIT_BACK_DURATION, SplitBack } from "./scenes/SplitBack";
-import { HOW_IT_FINDS_DURATION, HowItFinds } from "./scenes/HowItFinds";
-import { SPECTRUM_DURATION, Spectrum } from "./scenes/Spectrum";
-import { FILTER_DURATION, Filter } from "./scenes/Filter";
-import { EVERYDAY_USES_DURATION, EverydayUses } from "./scenes/EverydayUses";
-import { RECAP_DURATION, Recap } from "./scenes/Recap";
+import {
+  NarrationProvider,
+  SceneNarration,
+} from "./narration/NarrationContext";
+import {
+  AudioDurations,
+  SCENE_IDS,
+  SceneId,
+  loadAudioDurations,
+  sceneDurationInFrames,
+} from "./narration/timing";
+import { Intro } from "./scenes/Intro";
+import { MessyWave } from "./scenes/MessyWave";
+import { WhatIsASine } from "./scenes/WhatIsASine";
+import { SumOfSines } from "./scenes/SumOfSines";
+import { SplitBack } from "./scenes/SplitBack";
+import { HowItFinds } from "./scenes/HowItFinds";
+import { Spectrum } from "./scenes/Spectrum";
+import { Filter } from "./scenes/Filter";
+import { EverydayUses } from "./scenes/EverydayUses";
+import { Recap } from "./scenes/Recap";
 
-/** Scenes in order. Add new scenes here and they flow into the full video. */
-export const SCENES = [
-  { id: "Intro", component: Intro, duration: INTRO_DURATION },
-  { id: "MessyWave", component: MessyWave, duration: MESSY_WAVE_DURATION },
-  {
-    id: "WhatIsASine",
-    component: WhatIsASine,
-    duration: WHAT_IS_A_SINE_DURATION,
-  },
-  {
-    id: "SumOfSines",
-    component: SumOfSines,
-    duration: SUM_OF_SINES_DURATION,
-  },
-  { id: "SplitBack", component: SplitBack, duration: SPLIT_BACK_DURATION },
-  {
-    id: "HowItFinds",
-    component: HowItFinds,
-    duration: HOW_IT_FINDS_DURATION,
-  },
-  { id: "Spectrum", component: Spectrum, duration: SPECTRUM_DURATION },
-  { id: "Filter", component: Filter, duration: FILTER_DURATION },
-  {
-    id: "EverydayUses",
-    component: EverydayUses,
-    duration: EVERYDAY_USES_DURATION,
-  },
-  { id: "Recap", component: Recap, duration: RECAP_DURATION },
-] as const;
+/** Scene components; the order (and audio file) comes from SCENE_IDS. */
+export const SCENE_COMPONENTS: Record<SceneId, React.FC> = {
+  Intro,
+  MessyWave,
+  WhatIsASine,
+  SumOfSines,
+  SplitBack,
+  HowItFinds,
+  Spectrum,
+  Filter,
+  EverydayUses,
+  Recap,
+};
 
-export const FOURIER_DURATION = SCENES.reduce((a, s) => a + s.duration, 0);
+// ---------------------------------------------------------------------------
+// The full video
+// ---------------------------------------------------------------------------
 
-export const Fourier: React.FC = () => {
+export type FourierProps = { durations: AudioDurations | null };
+
+export const calculateFourierMetadata: CalculateMetadataFunction<
+  FourierProps
+> = async () => {
+  const durations = await loadAudioDurations();
+  return {
+    durationInFrames: SCENE_IDS.reduce(
+      (a, id) => a + sceneDurationInFrames(durations[id]),
+      0,
+    ),
+    props: { durations },
+  };
+};
+
+export const Fourier: React.FC<FourierProps> = ({ durations }) => {
+  if (!durations) return null;
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.background }}>
-      <Series>
-        {SCENES.map((s) => (
-          <Series.Sequence key={s.id} durationInFrames={s.duration} name={s.id}>
-            <s.component />
-          </Series.Sequence>
-        ))}
-      </Series>
+      <NarrationProvider durations={durations}>
+        <Series>
+          {SCENE_IDS.map((id) => {
+            const Scene = SCENE_COMPONENTS[id];
+            return (
+              <Series.Sequence
+                key={id}
+                durationInFrames={sceneDurationInFrames(durations[id])}
+                name={id}
+              >
+                <Scene />
+                <SceneNarration id={id} />
+              </Series.Sequence>
+            );
+          })}
+        </Series>
+      </NarrationProvider>
     </AbsoluteFill>
+  );
+};
+
+// ---------------------------------------------------------------------------
+// One scene on its own (the Fourier-scenes folder)
+// ---------------------------------------------------------------------------
+
+export type FourierSceneProps = {
+  id: SceneId;
+  durations: AudioDurations | null;
+};
+
+export const calculateSceneMetadata: CalculateMetadataFunction<
+  FourierSceneProps
+> = async ({ props }) => {
+  const durations = await loadAudioDurations();
+  return {
+    durationInFrames: sceneDurationInFrames(durations[props.id]),
+    props: { ...props, durations },
+  };
+};
+
+export const FourierScene: React.FC<FourierSceneProps> = ({
+  id,
+  durations,
+}) => {
+  if (!durations) return null;
+  const Scene = SCENE_COMPONENTS[id];
+  return (
+    <NarrationProvider durations={durations}>
+      <Scene />
+      <SceneNarration id={id} />
+    </NarrationProvider>
   );
 };

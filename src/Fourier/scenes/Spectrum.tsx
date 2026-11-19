@@ -22,19 +22,21 @@ import {
   sumValue,
   wavePath,
 } from "../waves";
+import { useSceneTiming } from "../narration/NarrationContext";
 
-// Timeline (frames @ 30 fps)
-export const SPECTRUM_DURATION = 360; // ~12 s
+// Timeline (frames @ 30 fps), synced to scene7.wav: the sines squeeze into
+// bars on "Each simple wave becomes one bar", the frequency labels appear on
+// "Where the bar sits", the strength axis on "how tall", and the Sound wave
+// draws in during the rest of the narration, finishing as it ends.
 /** Each sine: squeeze to bar width, turn solid, then drop onto the axis. */
-const BAR_STARTS = [10, 30, 50];
-const SQUEEZE = 30;
-const SOLIDIFY = [25, 40] as const; // relative to the bar's start
-const DROP = [40, 72] as const; // relative to the bar's start
-const FREQ_AXIS_IN = [50, 75] as const;
-const FREQ_LABELS_IN = 132;
+const BAR_STAGGER = 12;
+const SQUEEZE = 24;
+const SOLIDIFY = [20, 32] as const; // relative to the bar's start
+const DROP = [32, 56] as const; // relative to the bar's start
+const FREQ_AXIS_IN = [30, 55] as const; // relative to the first bar's start
 const FREQ_LABEL_STAGGER = 6;
-const STRENGTH_AXIS_IN = [168, 196] as const;
-const SOUND_IN = [212, 250] as const;
+const STRENGTH_AXIS_LENGTH = 28;
+const SOUND_MIN_LENGTH = 34;
 
 const STRENGTH_TICKS = [0.5, 1];
 
@@ -55,6 +57,18 @@ export type SpectrumProps = {
 
 export const Spectrum: React.FC<SpectrumProps> = ({ gains }) => {
   const frame = useCurrentFrame();
+  const timing = useSceneTiming("Spectrum");
+  const barsAt = timing.cue("Each simple wave becomes one bar").start;
+  const BAR_STARTS = COMPONENTS.map((_, i) => barsAt + i * BAR_STAGGER);
+  const FREQ_LABELS_IN = timing.cue("Where the bar sits").start;
+  const strengthAt = timing.cue("how tall").start;
+  const STRENGTH_AXIS_IN = [strengthAt, strengthAt + STRENGTH_AXIS_LENGTH];
+  // The Sound wave draws in while the narration is still going.
+  const soundEnd = timing.audioEnd - 2;
+  const SOUND_IN = [
+    Math.min(STRENGTH_AXIS_IN[1] + 2, soundEnd - SOUND_MIN_LENGTH),
+    soundEnd,
+  ];
   const gain = (i: number) => (gains ? gains[i] : 1);
   const sound = gains
     ? (u: number) =>
@@ -64,7 +78,12 @@ export const Spectrum: React.FC<SpectrumProps> = ({ gains }) => {
         )
     : sumValue;
 
-  const freqAxis = interpolate(frame, FREQ_AXIS_IN, [0, 1], clamp);
+  const freqAxis = interpolate(
+    frame,
+    [barsAt + FREQ_AXIS_IN[0], barsAt + FREQ_AXIS_IN[1]],
+    [0, 1],
+    clamp,
+  );
   const strengthAxis = interpolate(frame, STRENGTH_AXIS_IN, [0, 1], {
     ...clamp,
     easing: Easing.out(Easing.cubic),

@@ -1,0 +1,1641 @@
+{
+  "scene1": {
+    "text": "Every sound you hear is hiding a secret. In the next two minutes, let's see how a computer takes a sound apart.",
+    "words": [
+      {
+        "word": "Every",
+        "start": 0.03,
+        "end": 0.32
+      },
+      {
+        "word": "sound",
+        "start": 0.32,
+        "end": 0.654
+      },
+      {
+        "word": "you",
+        "start": 0.654,
+        "end": 0.855
+      },
+      {
+        "word": "hear",
+        "start": 0.855,
+        "end": 1.1
+      },
+      {
+        "word": "is",
+        "start": 1.1,
+        "end": 1.257
+      },
+      {
+        "word": "hiding",
+        "start": 1.257,
+        "end": 1.636
+      },
+      {
+        "word": "a",
+        "start": 1.636,
+        "end": 1.836
+      },
+      {
+        "word": "secret",
+        "start": 1.836,
+        "end": 2.26
+      },
+      {
+        "word": "In",
+        "start": 2.94,
+        "end": 3.103
+      },
+      {
+        "word": "the",
+        "start": 3.103,
+        "end": 3.23
+      },
+      {
+        "word": "next",
+        "start": 3.23,
+        "end": 3.502
+      },
+      {
+        "word": "two",
+        "start": 3.502,
+        "end": 3.702
+      },
+      {
+        "word": "minutes",
+        "start": 3.702,
+        "end": 4.01
+      },
+      {
+        "word": "let's",
+        "start": 4.28,
+        "end": 4.54
+      },
+      {
+        "word": "see",
+        "start": 4.54,
+        "end": 4.76
+      },
+      {
+        "word": "how",
+        "start": 4.76,
+        "end": 4.98
+      },
+      {
+        "word": "a",
+        "start": 4.98,
+        "end": 5.16
+      },
+      {
+        "word": "computer",
+        "start": 5.16,
+        "end": 5.62
+      },
+      {
+        "word": "takes",
+        "start": 5.62,
+        "end": 5.92
+      },
+      {
+        "word": "a",
+        "start": 5.92,
+        "end": 6.1
+      },
+      {
+        "word": "sound",
+        "start": 6.1,
+        "end": 6.4
+      },
+      {
+        "word": "apart",
+        "start": 6.4,
+        "end": 6.74
+      }
+    ],
+    "clauses": [
+      {
+        "text": "Every sound you hear is hiding a secret",
+        "start": 0.03,
+        "end": 2.26,
+        "snapped": true
+      },
+      {
+        "text": "In the next two minutes",
+        "start": 2.94,
+        "end": 4.01,
+        "snapped": true
+      },
+      {
+        "text": "let's see how a computer takes a sound apart",
+        "start": 4.28,
+        "end": 6.74,
+        "snapped": true
+      }
+    ],
+    "gaps": 4
+  },
+  "scene2": {
+    "text": "This wiggly line is what sound looks like to a computer. It looks like chaos, but there is a hidden pattern inside.",
+    "words": [
+      {
+        "word": "This",
+        "start": 0.03,
+        "end": 0.263
+      },
+      {
+        "word": "wiggly",
+        "start": 0.263,
+        "end": 0.582
+      },
+      {
+        "word": "line",
+        "start": 0.582,
+        "end": 0.858
+      },
+      {
+        "word": "is",
+        "start": 0.858,
+        "end": 1.006
+      },
+      {
+        "word": "what",
+        "start": 1.006,
+        "end": 1.24
+      },
+      {
+        "word": "sound",
+        "start": 1.24,
+        "end": 1.558
+      },
+      {
+        "word": "looks",
+        "start": 1.558,
+        "end": 1.834
+      },
+      {
+        "word": "like",
+        "start": 1.834,
+        "end": 2.11
+      },
+      {
+        "word": "to",
+        "start": 2.11,
+        "end": 2.301
+      },
+      {
+        "word": "a",
+        "start": 2.301,
+        "end": 2.492
+      },
+      {
+        "word": "computer",
+        "start": 2.492,
+        "end": 2.98
+      },
+      {
+        "word": "It",
+        "start": 3.61,
+        "end": 3.781
+      },
+      {
+        "word": "looks",
+        "start": 3.781,
+        "end": 4.098
+      },
+      {
+        "word": "like",
+        "start": 4.098,
+        "end": 4.415
+      },
+      {
+        "word": "chaos",
+        "start": 4.415,
+        "end": 4.83
+      },
+      {
+        "word": "but",
+        "start": 5.18,
+        "end": 5.431
+      },
+      {
+        "word": "there",
+        "start": 5.431,
+        "end": 5.682
+      },
+      {
+        "word": "is",
+        "start": 5.682,
+        "end": 5.842
+      },
+      {
+        "word": "a",
+        "start": 5.842,
+        "end": 6.047
+      },
+      {
+        "word": "hidden",
+        "start": 6.047,
+        "end": 6.39
+      },
+      {
+        "word": "pattern",
+        "start": 6.39,
+        "end": 6.732
+      },
+      {
+        "word": "inside",
+        "start": 6.732,
+        "end": 7.12
+      }
+    ],
+    "clauses": [
+      {
+        "text": "This wiggly line is what sound looks like to a computer",
+        "start": 0.03,
+        "end": 2.98,
+        "snapped": true
+      },
+      {
+        "text": "It looks like chaos",
+        "start": 3.61,
+        "end": 4.83,
+        "snapped": true
+      },
+      {
+        "text": "but there is a hidden pattern inside",
+        "start": 5.18,
+        "end": 7.12,
+        "snapped": true
+      }
+    ],
+    "gaps": 5
+  },
+  "scene3": {
+    "text": "Start with the simplest sound there is: a sine wave. How fast it wiggles is its frequency, which we hear as pitch. How tall it is, its amplitude, is how loud it is.",
+    "words": [
+      {
+        "word": "Start",
+        "start": 0.04,
+        "end": 0.43
+      },
+      {
+        "word": "with",
+        "start": 0.43,
+        "end": 0.636
+      },
+      {
+        "word": "the",
+        "start": 0.636,
+        "end": 0.796
+      },
+      {
+        "word": "simplest",
+        "start": 0.796,
+        "end": 1.324
+      },
+      {
+        "word": "sound",
+        "start": 1.324,
+        "end": 1.667
+      },
+      {
+        "word": "there",
+        "start": 1.667,
+        "end": 1.92
+      },
+      {
+        "word": "is",
+        "start": 1.92,
+        "end": 2.08
+      },
+      {
+        "word": "a",
+        "start": 2.39,
+        "end": 2.624
+      },
+      {
+        "word": "sine",
+        "start": 2.624,
+        "end": 2.962
+      },
+      {
+        "word": "wave",
+        "start": 2.962,
+        "end": 3.3
+      },
+      {
+        "word": "How",
+        "start": 3.87,
+        "end": 4.128
+      },
+      {
+        "word": "fast",
+        "start": 4.128,
+        "end": 4.434
+      },
+      {
+        "word": "it",
+        "start": 4.434,
+        "end": 4.598
+      },
+      {
+        "word": "wiggles",
+        "start": 4.598,
+        "end": 4.997
+      },
+      {
+        "word": "is",
+        "start": 4.997,
+        "end": 5.162
+      },
+      {
+        "word": "its",
+        "start": 5.162,
+        "end": 5.373
+      },
+      {
+        "word": "frequency",
+        "start": 5.373,
+        "end": 5.96
+      },
+      {
+        "word": "which",
+        "start": 6.07,
+        "end": 6.33
+      },
+      {
+        "word": "we",
+        "start": 6.33,
+        "end": 6.51
+      },
+      {
+        "word": "hear",
+        "start": 6.51,
+        "end": 6.73
+      },
+      {
+        "word": "as",
+        "start": 6.73,
+        "end": 6.87
+      },
+      {
+        "word": "pitch",
+        "start": 6.87,
+        "end": 7.13
+      },
+      {
+        "word": "How",
+        "start": 7.77,
+        "end": 8.054
+      },
+      {
+        "word": "tall",
+        "start": 8.054,
+        "end": 8.389
+      },
+      {
+        "word": "it",
+        "start": 8.389,
+        "end": 8.569
+      },
+      {
+        "word": "is",
+        "start": 8.569,
+        "end": 8.75
+      },
+      {
+        "word": "its",
+        "start": 8.82,
+        "end": 9.053
+      },
+      {
+        "word": "amplitude",
+        "start": 9.053,
+        "end": 9.7
+      },
+      {
+        "word": "is",
+        "start": 9.79,
+        "end": 9.964
+      },
+      {
+        "word": "how",
+        "start": 9.964,
+        "end": 10.238
+      },
+      {
+        "word": "loud",
+        "start": 10.238,
+        "end": 10.562
+      },
+      {
+        "word": "it",
+        "start": 10.562,
+        "end": 10.736
+      },
+      {
+        "word": "is",
+        "start": 10.736,
+        "end": 10.91
+      }
+    ],
+    "clauses": [
+      {
+        "text": "Start with the simplest sound there is",
+        "start": 0.04,
+        "end": 2.08,
+        "snapped": true
+      },
+      {
+        "text": "a sine wave",
+        "start": 2.39,
+        "end": 3.3,
+        "snapped": true
+      },
+      {
+        "text": "How fast it wiggles is its frequency",
+        "start": 3.87,
+        "end": 5.96,
+        "snapped": true
+      },
+      {
+        "text": "which we hear as pitch",
+        "start": 6.07,
+        "end": 7.13,
+        "snapped": true
+      },
+      {
+        "text": "How tall it is",
+        "start": 7.77,
+        "end": 8.75,
+        "snapped": true
+      },
+      {
+        "text": "its amplitude",
+        "start": 8.82,
+        "end": 9.7,
+        "snapped": true
+      },
+      {
+        "text": "is how loud it is",
+        "start": 9.79,
+        "end": 10.91,
+        "snapped": true
+      }
+    ],
+    "gaps": 8
+  },
+  "scene4": {
+    "text": "Here are three simple, smooth waves: a low note, a middle note, and a high note. Add them together, point by point, and you get exactly that messy wave.",
+    "words": [
+      {
+        "word": "Here",
+        "start": 0.04,
+        "end": 0.3
+      },
+      {
+        "word": "are",
+        "start": 0.3,
+        "end": 0.512
+      },
+      {
+        "word": "three",
+        "start": 0.512,
+        "end": 0.819
+      },
+      {
+        "word": "simple",
+        "start": 0.819,
+        "end": 1.22
+      },
+      {
+        "word": "smooth",
+        "start": 1.27,
+        "end": 1.74
+      },
+      {
+        "word": "waves",
+        "start": 1.74,
+        "end": 2.21
+      },
+      {
+        "word": "a",
+        "start": 2.64,
+        "end": 2.82
+      },
+      {
+        "word": "low",
+        "start": 2.82,
+        "end": 3.04
+      },
+      {
+        "word": "note",
+        "start": 3.04,
+        "end": 3.3
+      },
+      {
+        "word": "a",
+        "start": 3.4,
+        "end": 3.556
+      },
+      {
+        "word": "middle",
+        "start": 3.556,
+        "end": 3.815
+      },
+      {
+        "word": "note",
+        "start": 3.815,
+        "end": 4.04
+      },
+      {
+        "word": "and",
+        "start": 4.09,
+        "end": 4.261
+      },
+      {
+        "word": "a",
+        "start": 4.261,
+        "end": 4.433
+      },
+      {
+        "word": "high",
+        "start": 4.433,
+        "end": 4.642
+      },
+      {
+        "word": "note",
+        "start": 4.642,
+        "end": 4.89
+      },
+      {
+        "word": "Add",
+        "start": 5.61,
+        "end": 5.819
+      },
+      {
+        "word": "them",
+        "start": 5.819,
+        "end": 6.075
+      },
+      {
+        "word": "together",
+        "start": 6.075,
+        "end": 6.47
+      },
+      {
+        "word": "point",
+        "start": 6.57,
+        "end": 6.863
+      },
+      {
+        "word": "by",
+        "start": 6.863,
+        "end": 7.077
+      },
+      {
+        "word": "point",
+        "start": 7.077,
+        "end": 7.37
+      },
+      {
+        "word": "and",
+        "start": 7.63,
+        "end": 7.831
+      },
+      {
+        "word": "you",
+        "start": 7.831,
+        "end": 8.031
+      },
+      {
+        "word": "get",
+        "start": 8.031,
+        "end": 8.277
+      },
+      {
+        "word": "exactly",
+        "start": 8.277,
+        "end": 8.745
+      },
+      {
+        "word": "that",
+        "start": 8.745,
+        "end": 8.99
+      },
+      {
+        "word": "messy",
+        "start": 8.99,
+        "end": 9.28
+      },
+      {
+        "word": "wave",
+        "start": 9.28,
+        "end": 9.57
+      }
+    ],
+    "clauses": [
+      {
+        "text": "Here are three simple",
+        "start": 0.04,
+        "end": 1.22,
+        "snapped": true
+      },
+      {
+        "text": "smooth waves",
+        "start": 1.27,
+        "end": 2.21,
+        "snapped": true
+      },
+      {
+        "text": "a low note",
+        "start": 2.64,
+        "end": 3.3,
+        "snapped": true
+      },
+      {
+        "text": "a middle note",
+        "start": 3.4,
+        "end": 4.04,
+        "snapped": true
+      },
+      {
+        "text": "and a high note",
+        "start": 4.09,
+        "end": 4.89,
+        "snapped": true
+      },
+      {
+        "text": "Add them together",
+        "start": 5.61,
+        "end": 6.47,
+        "snapped": true
+      },
+      {
+        "text": "point by point",
+        "start": 6.57,
+        "end": 7.37,
+        "snapped": true
+      },
+      {
+        "text": "and you get exactly that messy wave",
+        "start": 7.63,
+        "end": 9.57,
+        "snapped": true
+      }
+    ],
+    "gaps": 8
+  },
+  "scene5": {
+    "text": "The Fourier transform does the reverse. It takes the messy wave and finds the simple waves hidden inside it.",
+    "words": [
+      {
+        "word": "The",
+        "start": 0.03,
+        "end": 0.2
+      },
+      {
+        "word": "Fourier",
+        "start": 0.2,
+        "end": 0.613
+      },
+      {
+        "word": "transform",
+        "start": 0.613,
+        "end": 1.22
+      },
+      {
+        "word": "does",
+        "start": 1.22,
+        "end": 1.487
+      },
+      {
+        "word": "the",
+        "start": 1.487,
+        "end": 1.657
+      },
+      {
+        "word": "reverse",
+        "start": 1.657,
+        "end": 2.07
+      },
+      {
+        "word": "It",
+        "start": 2.7,
+        "end": 2.876
+      },
+      {
+        "word": "takes",
+        "start": 2.876,
+        "end": 3.253
+      },
+      {
+        "word": "the",
+        "start": 3.253,
+        "end": 3.43
+      },
+      {
+        "word": "messy",
+        "start": 3.43,
+        "end": 3.757
+      },
+      {
+        "word": "wave",
+        "start": 3.757,
+        "end": 4.084
+      },
+      {
+        "word": "and",
+        "start": 4.084,
+        "end": 4.31
+      },
+      {
+        "word": "finds",
+        "start": 4.31,
+        "end": 4.738
+      },
+      {
+        "word": "the",
+        "start": 4.738,
+        "end": 4.914
+      },
+      {
+        "word": "simple",
+        "start": 4.914,
+        "end": 5.342
+      },
+      {
+        "word": "waves",
+        "start": 5.342,
+        "end": 5.719
+      },
+      {
+        "word": "hidden",
+        "start": 5.719,
+        "end": 6.096
+      },
+      {
+        "word": "inside",
+        "start": 6.096,
+        "end": 6.524
+      },
+      {
+        "word": "it",
+        "start": 6.524,
+        "end": 6.7
+      }
+    ],
+    "clauses": [
+      {
+        "text": "The Fourier transform does the reverse",
+        "start": 0.03,
+        "end": 2.07,
+        "snapped": true
+      },
+      {
+        "text": "It takes the messy wave and finds the simple waves hidden inside it",
+        "start": 2.7,
+        "end": 6.7,
+        "snapped": true
+      }
+    ],
+    "gaps": 4
+  },
+  "scene6": {
+    "text": "How does it find them? It tries one frequency at a time and compares it with the sound. When they match, they line up and the score is high. When they don't, they cancel out and the score is close to zero.",
+    "words": [
+      {
+        "word": "How",
+        "start": 0.04,
+        "end": 0.216
+      },
+      {
+        "word": "does",
+        "start": 0.216,
+        "end": 0.392
+      },
+      {
+        "word": "it",
+        "start": 0.392,
+        "end": 0.504
+      },
+      {
+        "word": "find",
+        "start": 0.504,
+        "end": 0.744
+      },
+      {
+        "word": "them",
+        "start": 0.744,
+        "end": 0.92
+      },
+      {
+        "word": "It",
+        "start": 1.41,
+        "end": 1.566
+      },
+      {
+        "word": "tries",
+        "start": 1.566,
+        "end": 1.9
+      },
+      {
+        "word": "one",
+        "start": 1.9,
+        "end": 2.145
+      },
+      {
+        "word": "frequency",
+        "start": 2.145,
+        "end": 2.703
+      },
+      {
+        "word": "at",
+        "start": 2.703,
+        "end": 2.859
+      },
+      {
+        "word": "a",
+        "start": 2.859,
+        "end": 3.059
+      },
+      {
+        "word": "time",
+        "start": 3.059,
+        "end": 3.349
+      },
+      {
+        "word": "and",
+        "start": 3.349,
+        "end": 3.55
+      },
+      {
+        "word": "compares",
+        "start": 3.55,
+        "end": 3.973
+      },
+      {
+        "word": "it",
+        "start": 3.973,
+        "end": 4.129
+      },
+      {
+        "word": "with",
+        "start": 4.129,
+        "end": 4.33
+      },
+      {
+        "word": "the",
+        "start": 4.33,
+        "end": 4.486
+      },
+      {
+        "word": "sound",
+        "start": 4.486,
+        "end": 4.82
+      },
+      {
+        "word": "When",
+        "start": 5.51,
+        "end": 5.733
+      },
+      {
+        "word": "they",
+        "start": 5.733,
+        "end": 5.916
+      },
+      {
+        "word": "match",
+        "start": 5.916,
+        "end": 6.18
+      },
+      {
+        "word": "they",
+        "start": 6.27,
+        "end": 6.469
+      },
+      {
+        "word": "line",
+        "start": 6.469,
+        "end": 6.757
+      },
+      {
+        "word": "up",
+        "start": 6.757,
+        "end": 6.956
+      },
+      {
+        "word": "and",
+        "start": 6.956,
+        "end": 7.155
+      },
+      {
+        "word": "the",
+        "start": 7.155,
+        "end": 7.31
+      },
+      {
+        "word": "score",
+        "start": 7.31,
+        "end": 7.642
+      },
+      {
+        "word": "is",
+        "start": 7.642,
+        "end": 7.797
+      },
+      {
+        "word": "high",
+        "start": 7.797,
+        "end": 8.04
+      },
+      {
+        "word": "When",
+        "start": 8.66,
+        "end": 8.845
+      },
+      {
+        "word": "they",
+        "start": 8.845,
+        "end": 8.997
+      },
+      {
+        "word": "don't",
+        "start": 8.997,
+        "end": 9.25
+      },
+      {
+        "word": "they",
+        "start": 9.42,
+        "end": 9.625
+      },
+      {
+        "word": "cancel",
+        "start": 9.625,
+        "end": 10.012
+      },
+      {
+        "word": "out",
+        "start": 10.012,
+        "end": 10.262
+      },
+      {
+        "word": "and",
+        "start": 10.262,
+        "end": 10.467
+      },
+      {
+        "word": "the",
+        "start": 10.467,
+        "end": 10.626
+      },
+      {
+        "word": "score",
+        "start": 10.626,
+        "end": 10.968
+      },
+      {
+        "word": "is",
+        "start": 10.968,
+        "end": 11.127
+      },
+      {
+        "word": "close",
+        "start": 11.127,
+        "end": 11.468
+      },
+      {
+        "word": "to",
+        "start": 11.468,
+        "end": 11.673
+      },
+      {
+        "word": "zero",
+        "start": 11.673,
+        "end": 12.06
+      }
+    ],
+    "clauses": [
+      {
+        "text": "How does it find them",
+        "start": 0.04,
+        "end": 0.92,
+        "snapped": true
+      },
+      {
+        "text": "It tries one frequency at a time and compares it with the sound",
+        "start": 1.41,
+        "end": 4.82,
+        "snapped": true
+      },
+      {
+        "text": "When they match",
+        "start": 5.51,
+        "end": 6.18,
+        "snapped": true
+      },
+      {
+        "text": "they line up and the score is high",
+        "start": 6.27,
+        "end": 8.04,
+        "snapped": true
+      },
+      {
+        "text": "When they don't",
+        "start": 8.66,
+        "end": 9.25,
+        "snapped": true
+      },
+      {
+        "text": "they cancel out and the score is close to zero",
+        "start": 9.42,
+        "end": 12.06,
+        "snapped": true
+      }
+    ],
+    "gaps": 9
+  },
+  "scene7": {
+    "text": "Each simple wave becomes one bar. Where the bar sits tells you the frequency, and how tall it is tells you how strong it is.",
+    "words": [
+      {
+        "word": "Each",
+        "start": 0.03,
+        "end": 0.349
+      },
+      {
+        "word": "simple",
+        "start": 0.349,
+        "end": 0.766
+      },
+      {
+        "word": "wave",
+        "start": 0.766,
+        "end": 1.085
+      },
+      {
+        "word": "becomes",
+        "start": 1.085,
+        "end": 1.501
+      },
+      {
+        "word": "one",
+        "start": 1.501,
+        "end": 1.771
+      },
+      {
+        "word": "bar",
+        "start": 1.771,
+        "end": 2.09
+      },
+      {
+        "word": "Where",
+        "start": 2.72,
+        "end": 2.942
+      },
+      {
+        "word": "the",
+        "start": 2.942,
+        "end": 3.084
+      },
+      {
+        "word": "bar",
+        "start": 3.084,
+        "end": 3.346
+      },
+      {
+        "word": "sits",
+        "start": 3.346,
+        "end": 3.609
+      },
+      {
+        "word": "tells",
+        "start": 3.609,
+        "end": 3.872
+      },
+      {
+        "word": "you",
+        "start": 3.872,
+        "end": 4.053
+      },
+      {
+        "word": "the",
+        "start": 4.053,
+        "end": 4.195
+      },
+      {
+        "word": "frequency",
+        "start": 4.195,
+        "end": 4.7
+      },
+      {
+        "word": "and",
+        "start": 5.12,
+        "end": 5.32
+      },
+      {
+        "word": "how",
+        "start": 5.32,
+        "end": 5.564
+      },
+      {
+        "word": "tall",
+        "start": 5.564,
+        "end": 5.853
+      },
+      {
+        "word": "it",
+        "start": 5.853,
+        "end": 6.008
+      },
+      {
+        "word": "is",
+        "start": 6.008,
+        "end": 6.163
+      },
+      {
+        "word": "tells",
+        "start": 6.163,
+        "end": 6.452
+      },
+      {
+        "word": "you",
+        "start": 6.452,
+        "end": 6.652
+      },
+      {
+        "word": "how",
+        "start": 6.652,
+        "end": 6.896
+      },
+      {
+        "word": "strong",
+        "start": 6.896,
+        "end": 7.229
+      },
+      {
+        "word": "it",
+        "start": 7.229,
+        "end": 7.385
+      },
+      {
+        "word": "is",
+        "start": 7.385,
+        "end": 7.54
+      }
+    ],
+    "clauses": [
+      {
+        "text": "Each simple wave becomes one bar",
+        "start": 0.03,
+        "end": 2.09,
+        "snapped": true
+      },
+      {
+        "text": "Where the bar sits tells you the frequency",
+        "start": 2.72,
+        "end": 4.7,
+        "snapped": true
+      },
+      {
+        "text": "and how tall it is tells you how strong it is",
+        "start": 5.12,
+        "end": 7.54,
+        "snapped": true
+      }
+    ],
+    "gaps": 4
+  },
+  "scene8": {
+    "text": "Now remove one bar, and the sound changes. That is how filters work: any sound is just a sum of sine waves.",
+    "words": [
+      {
+        "word": "Now",
+        "start": 0.04,
+        "end": 0.319
+      },
+      {
+        "word": "remove",
+        "start": 0.319,
+        "end": 0.751
+      },
+      {
+        "word": "one",
+        "start": 0.751,
+        "end": 1.03
+      },
+      {
+        "word": "bar",
+        "start": 1.03,
+        "end": 1.36
+      },
+      {
+        "word": "and",
+        "start": 1.46,
+        "end": 1.65
+      },
+      {
+        "word": "the",
+        "start": 1.65,
+        "end": 1.798
+      },
+      {
+        "word": "sound",
+        "start": 1.798,
+        "end": 2.114
+      },
+      {
+        "word": "changes",
+        "start": 2.114,
+        "end": 2.6
+      },
+      {
+        "word": "That",
+        "start": 3.28,
+        "end": 3.524
+      },
+      {
+        "word": "is",
+        "start": 3.524,
+        "end": 3.68
+      },
+      {
+        "word": "how",
+        "start": 3.68,
+        "end": 3.924
+      },
+      {
+        "word": "filters",
+        "start": 3.924,
+        "end": 4.301
+      },
+      {
+        "word": "work",
+        "start": 4.301,
+        "end": 4.59
+      },
+      {
+        "word": "any",
+        "start": 4.94,
+        "end": 5.175
+      },
+      {
+        "word": "sound",
+        "start": 5.175,
+        "end": 5.495
+      },
+      {
+        "word": "is",
+        "start": 5.495,
+        "end": 5.645
+      },
+      {
+        "word": "just",
+        "start": 5.645,
+        "end": 5.965
+      },
+      {
+        "word": "a",
+        "start": 5.965,
+        "end": 6.157
+      },
+      {
+        "word": "sum",
+        "start": 6.157,
+        "end": 6.392
+      },
+      {
+        "word": "of",
+        "start": 6.392,
+        "end": 6.542
+      },
+      {
+        "word": "sine",
+        "start": 6.542,
+        "end": 6.82
+      },
+      {
+        "word": "waves",
+        "start": 6.82,
+        "end": 7.14
+      }
+    ],
+    "clauses": [
+      {
+        "text": "Now remove one bar",
+        "start": 0.04,
+        "end": 1.36,
+        "snapped": true
+      },
+      {
+        "text": "and the sound changes",
+        "start": 1.46,
+        "end": 2.6,
+        "snapped": true
+      },
+      {
+        "text": "That is how filters work",
+        "start": 3.28,
+        "end": 4.59,
+        "snapped": true
+      },
+      {
+        "text": "any sound is just a sum of sine waves",
+        "start": 4.94,
+        "end": 7.14,
+        "snapped": true
+      }
+    ],
+    "gaps": 6
+  },
+  "scene9": {
+    "text": "You use this every day: music apps compress songs, noise-cancelling headphones remove hum, and Shazam recognizes a song from its frequencies.",
+    "words": [
+      {
+        "word": "You",
+        "start": 0.03,
+        "end": 0.242
+      },
+      {
+        "word": "use",
+        "start": 0.242,
+        "end": 0.547
+      },
+      {
+        "word": "this",
+        "start": 0.547,
+        "end": 0.806
+      },
+      {
+        "word": "every",
+        "start": 0.806,
+        "end": 1.111
+      },
+      {
+        "word": "day",
+        "start": 1.111,
+        "end": 1.37
+      },
+      {
+        "word": "music",
+        "start": 2.01,
+        "end": 2.513
+      },
+      {
+        "word": "apps",
+        "start": 2.513,
+        "end": 2.804
+      },
+      {
+        "word": "compress",
+        "start": 2.804,
+        "end": 3.306
+      },
+      {
+        "word": "songs",
+        "start": 3.306,
+        "end": 3.65
+      },
+      {
+        "word": "noise-cancelling",
+        "start": 3.9,
+        "end": 4.776
+      },
+      {
+        "word": "headphones",
+        "start": 4.776,
+        "end": 5.369
+      },
+      {
+        "word": "remove",
+        "start": 5.369,
+        "end": 5.849
+      },
+      {
+        "word": "hum",
+        "start": 5.849,
+        "end": 6.16
+      },
+      {
+        "word": "and",
+        "start": 6.65,
+        "end": 6.863
+      },
+      {
+        "word": "Shazam",
+        "start": 6.863,
+        "end": 7.218
+      },
+      {
+        "word": "recognizes",
+        "start": 7.218,
+        "end": 7.904
+      },
+      {
+        "word": "a",
+        "start": 7.904,
+        "end": 8.117
+      },
+      {
+        "word": "song",
+        "start": 8.117,
+        "end": 8.378
+      },
+      {
+        "word": "from",
+        "start": 8.378,
+        "end": 8.638
+      },
+      {
+        "word": "its",
+        "start": 8.638,
+        "end": 8.851
+      },
+      {
+        "word": "frequencies",
+        "start": 8.851,
+        "end": 9.49
+      }
+    ],
+    "clauses": [
+      {
+        "text": "You use this every day",
+        "start": 0.03,
+        "end": 1.37,
+        "snapped": true
+      },
+      {
+        "text": "music apps compress songs",
+        "start": 2.01,
+        "end": 3.65,
+        "snapped": true
+      },
+      {
+        "text": "noise-cancelling headphones remove hum",
+        "start": 3.9,
+        "end": 6.16,
+        "snapped": true
+      },
+      {
+        "text": "and Shazam recognizes a song from its frequencies",
+        "start": 6.65,
+        "end": 9.49,
+        "snapped": true
+      }
+    ],
+    "gaps": 4
+  },
+  "scene10": {
+    "text": "So remember: any sound is a sum of sine waves, and the Fourier transform tells us which ones, and how strong each one is.",
+    "words": [
+      {
+        "word": "So",
+        "start": 0.03,
+        "end": 0.349
+      },
+      {
+        "word": "remember",
+        "start": 0.349,
+        "end": 0.9
+      },
+      {
+        "word": "any",
+        "start": 1.43,
+        "end": 1.686
+      },
+      {
+        "word": "sound",
+        "start": 1.686,
+        "end": 2.036
+      },
+      {
+        "word": "is",
+        "start": 2.036,
+        "end": 2.199
+      },
+      {
+        "word": "a",
+        "start": 2.199,
+        "end": 2.408
+      },
+      {
+        "word": "sum",
+        "start": 2.408,
+        "end": 2.665
+      },
+      {
+        "word": "of",
+        "start": 2.665,
+        "end": 2.828
+      },
+      {
+        "word": "sine",
+        "start": 2.828,
+        "end": 3.131
+      },
+      {
+        "word": "waves",
+        "start": 3.131,
+        "end": 3.48
+      },
+      {
+        "word": "and",
+        "start": 3.81,
+        "end": 4.004
+      },
+      {
+        "word": "the",
+        "start": 4.004,
+        "end": 4.156
+      },
+      {
+        "word": "Fourier",
+        "start": 4.156,
+        "end": 4.523
+      },
+      {
+        "word": "transform",
+        "start": 4.523,
+        "end": 5.063
+      },
+      {
+        "word": "tells",
+        "start": 5.063,
+        "end": 5.344
+      },
+      {
+        "word": "us",
+        "start": 5.344,
+        "end": 5.538
+      },
+      {
+        "word": "which",
+        "start": 5.538,
+        "end": 5.819
+      },
+      {
+        "word": "ones",
+        "start": 5.819,
+        "end": 6.1
+      },
+      {
+        "word": "and",
+        "start": 6.57,
+        "end": 6.762
+      },
+      {
+        "word": "how",
+        "start": 6.762,
+        "end": 6.997
+      },
+      {
+        "word": "strong",
+        "start": 6.997,
+        "end": 7.318
+      },
+      {
+        "word": "each",
+        "start": 7.318,
+        "end": 7.595
+      },
+      {
+        "word": "one",
+        "start": 7.595,
+        "end": 7.83
+      },
+      {
+        "word": "is",
+        "start": 7.83,
+        "end": 7.98
+      }
+    ],
+    "clauses": [
+      {
+        "text": "So remember",
+        "start": 0.03,
+        "end": 0.9,
+        "snapped": true
+      },
+      {
+        "text": "any sound is a sum of sine waves",
+        "start": 1.43,
+        "end": 3.48,
+        "snapped": true
+      },
+      {
+        "text": "and the Fourier transform tells us which ones",
+        "start": 3.81,
+        "end": 6.1,
+        "snapped": true
+      },
+      {
+        "text": "and how strong each one is",
+        "start": 6.57,
+        "end": 7.98,
+        "snapped": true
+      }
+    ],
+    "gaps": 4
+  }
+}

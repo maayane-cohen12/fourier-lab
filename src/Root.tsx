@@ -2,7 +2,13 @@ import { Composition, Folder } from "remotion";
 import { HelloWorld } from "./HelloWorld";
 import { Logo } from "./HelloWorld/Logo";
 import { Title } from "./HelloWorld/Title";
-import { FOURIER_DURATION, Fourier, SCENES } from "./Fourier/Fourier";
+import {
+  Fourier,
+  FourierScene,
+  calculateFourierMetadata,
+  calculateSceneMetadata,
+} from "./Fourier/Fourier";
+import { SCENE_IDS } from "./Fourier/narration/timing";
 import { FPS, HEIGHT, WIDTH } from "./Fourier/waves";
 
 // Each <Composition> is an entry in the sidebar!
@@ -39,21 +45,26 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="Fourier"
         component={Fourier}
-        durationInFrames={FOURIER_DURATION}
+        // Real length comes from the narration audio (calculateMetadata).
+        durationInFrames={1}
         fps={FPS}
         width={WIDTH}
         height={HEIGHT}
+        defaultProps={{ durations: null }}
+        calculateMetadata={calculateFourierMetadata}
       />
       <Folder name="Fourier-scenes">
-        {SCENES.map((s) => (
+        {SCENE_IDS.map((id) => (
           <Composition
-            key={s.id}
-            id={s.id}
-            component={s.component}
-            durationInFrames={s.duration}
+            key={id}
+            id={id}
+            component={FourierScene}
+            durationInFrames={1}
             fps={FPS}
             width={WIDTH}
             height={HEIGHT}
+            defaultProps={{ id, durations: null }}
+            calculateMetadata={calculateSceneMetadata}
           />
         ))}
       </Folder>

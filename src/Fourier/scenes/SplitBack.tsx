@@ -27,15 +27,21 @@ import {
   titleStyle,
   wavePath,
 } from "../waves";
+import { useSceneTiming } from "../narration/NarrationContext";
+import { checkCaptionHold } from "../narration/timing";
 
-// Timeline (frames @ 30 fps)
-export const SPLIT_BACK_DURATION = 360; // ~12 s
+// Timeline (frames @ 30 fps), synced to scene5.wav: the title is up while
+// "The Fourier transform does the reverse" is said, and the peel-out (three
+// peels, then the flat line fading) spans from "It takes the messy wave" to
+// 0.5 s before the scene ends, which then holds on the three labeled sines.
 const TITLE_IN = [12, 36] as const;
-const TITLE_OUT = [92, 108] as const;
-/** One peel per component, lowest frequency first. */
-const PEEL_LENGTH = 55;
-const PEEL_STARTS = [105, 175, 245];
-const FLAT_FADE = [305, 328] as const;
+const TITLE_OUT_LEAD = 8; // title starts leaving this long before the peel
+const TITLE_OUT_LENGTH = 14;
+const END_HOLD = 15; // 0.5 s on the finished rows
+/** Within the peel-out span (0..1): where each peel starts, and its length. */
+const PEEL_STARTS = [0, 0.31, 0.62];
+const PEEL_FRACTION = 0.3;
+const FLAT_FADE_FROM = 0.92;
 const LABEL_FADE = 15; // label + row baseline fade in as each sine lands
 
 const clamp = {
@@ -52,10 +58,22 @@ const residual = (k: number) => (u: number) =>
 
 export const SplitBack: React.FC = () => {
   const frame = useCurrentFrame();
+  const timing = useSceneTiming("SplitBack");
+  const peelFrom = timing.cue("It takes the messy wave").start;
+  const peelTo = timing.durationInFrames - END_HOLD;
+  const span = peelTo - peelFrom;
+  const PEEL_LENGTH = span * PEEL_FRACTION;
+  const FLAT_FADE = [peelFrom + span * FLAT_FADE_FROM, peelTo];
+  const TITLE_OUT = [
+    peelFrom - TITLE_OUT_LEAD,
+    peelFrom - TITLE_OUT_LEAD + TITLE_OUT_LENGTH,
+  ];
+  checkCaptionHold("SplitBack", "does the reverse", TITLE_IN[1], TITLE_OUT[0]);
 
   // Per component: how far it has risen (0 = in the Sum row, 1 = in its row)
   // and how far it has morphed from "copy of the white wave" into a clean sine.
-  const peels = PEEL_STARTS.map((start) => {
+  const peels = PEEL_STARTS.map((f) => {
+    const start = peelFrom + f * span;
     const rise = interpolate(frame, [start, start + PEEL_LENGTH], [0, 1], {
       ...clamp,
       easing: Easing.inOut(Easing.cubic),

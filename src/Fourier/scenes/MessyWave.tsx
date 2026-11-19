@@ -19,16 +19,25 @@ import {
   titleStyle,
   wavePath,
 } from "../waves";
+import { useSceneTiming } from "../narration/NarrationContext";
+import { checkCaptionHold } from "../narration/timing";
 
-// Timeline (frames @ 30 fps)
-export const MESSY_WAVE_DURATION = 300; // ~10 s
+// Timeline (frames @ 30 fps), synced to scene2.wav. The subtitle fades in on
+// "It looks like chaos"; once the narration is over the wave slows to a stop,
+// shrinks into the scene-2 Sum row and dims. Those steps are anchored to the
+// scene's end (E), so the last frame is the same whatever the audio length.
 const WAVE_IN = [0, 15] as const; // wave fades in from the empty background
-const SUBTITLE_IN = 150; // 5 s
-const SLOW_START = 180; // start decelerating
-const STOP = 225; // wave at rest, exactly in scene-2 shape
-const TEXT_OUT = [228, 245] as const;
-const SHRINK = [240, 280] as const;
-const DIM = [278, 296] as const;
+const SLOW_LENGTH = 45; // deceleration to a stop
+const endTimeline = (E: number) => {
+  const STOP = E - 64; // wave at rest, exactly in scene-2 shape
+  return {
+    SLOW_START: STOP - SLOW_LENGTH,
+    STOP,
+    TEXT_OUT: [E - 66, E - 50],
+    SHRINK: [E - 60, E - 20],
+    DIM: [E - 22, E - 4],
+  };
+};
 
 const SPEED = 0.01; // plot widths per frame while scrolling
 const SAMPLES_PER_PLOT = 96;
@@ -38,7 +47,11 @@ const SAMPLES_PER_PLOT = 96;
  * Returned relative to the stopping point, so at STOP the shift is exactly 0
  * and the curve is identical to the scene-2 Sum row.
  */
-const scrollShift = (frame: number): number => {
+const scrollShift = (
+  frame: number,
+  SLOW_START: number,
+  STOP: number,
+): number => {
   const slowLen = STOP - SLOW_START;
   const distance = (f: number) => {
     if (f <= SLOW_START) return SPEED * f;
@@ -50,8 +63,21 @@ const scrollShift = (frame: number): number => {
 
 export const MessyWave: React.FC = () => {
   const frame = useCurrentFrame();
+  const timing = useSceneTiming("MessyWave");
+  const SUBTITLE_IN = timing.cue("It looks like chaos").start;
+  const { SLOW_START, STOP, TEXT_OUT, SHRINK, DIM } = endTimeline(
+    timing.durationInFrames,
+  );
 
-  const shift = scrollShift(frame);
+  checkCaptionHold("MessyWave", "This is what sound…", 20, TEXT_OUT[0]);
+  checkCaptionHold(
+    "MessyWave",
+    "Looks like chaos…",
+    SUBTITLE_IN + 20,
+    TEXT_OUT[0],
+  );
+
+  const shift = scrollShift(frame, SLOW_START, STOP);
 
   const shrinkT = interpolate(frame, SHRINK, [0, 1], {
     extrapolateLeft: "clamp",

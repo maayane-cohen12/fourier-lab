@@ -20,18 +20,22 @@ import {
   titleStyle,
   wavePath,
 } from "../waves";
-import { SPECTRUM_DURATION, Spectrum } from "./Spectrum";
+import { Spectrum } from "./Spectrum";
+import { useSceneTiming } from "../narration/NarrationContext";
+import { MIN_CAPTION_FRAMES, checkCaptionHold } from "../narration/timing";
 
-// Timeline (frames @ 30 fps)
-export const FILTER_DURATION = 300; // ~10 s
-const HOLD = 30; // 1 s of the untouched spectrum and wave
-const REMOVE = [HOLD, HOLD + 45] as const; // 660 Hz bar shrinks away over 1.5 s
-const GHOST_IN = [HOLD, HOLD + 10] as const; // dashed "before" outlines
-const CAPTION_IN = [85, 105] as const;
-const CAPTION_OUT = [165, 180] as const;
-const CLOSING_IN = [186, 212] as const;
-// Last 0.6 s; reaches the empty background on the final frame.
-const FINAL_FADE = [FILTER_DURATION - 18, FILTER_DURATION - 1] as const;
+// Timeline (frames @ 30 fps), synced to scene8.wav: the 660 Hz bar shrinks
+// from "one bar" through "and the sound changes"; "Remove a frequency = a
+// filter" arrives just before "That is how filters work"; the closing line
+// comes in on "any sound"; the last 0.6 s fades to the empty background.
+const GHOST_FADE = 10; // dashed "before" outlines
+const CAPTION_FADE = 14;
+const CAPTION_LEAD = 3; // caption is fully in this long before "That is…"
+const CLOSING_FADE = 20;
+const SWAP = 12; // caption fades out over this, ending as the closing line starts
+const FINAL_FADE_LENGTH = 18; // last 0.6 s; reaches 0 on the final frame
+const CAPTION = "Remove a frequency = a filter";
+const CLOSING = "Any sound = a sum of sine waves";
 
 /** Which component is filtered out (660 Hz). */
 const REMOVED = 2;
@@ -46,6 +50,28 @@ const clamp = {
 
 export const Filter: React.FC = () => {
   const frame = useCurrentFrame();
+  const timing = useSceneTiming("Filter");
+  const spectrumEnd = useSceneTiming("Spectrum").durationInFrames - 1;
+  const E = timing.durationInFrames;
+
+  const REMOVE = [
+    timing.cue("one bar").start,
+    timing.cue("and the sound changes").end,
+  ];
+  const GHOST_IN = [REMOVE[0], REMOVE[0] + GHOST_FADE];
+  const closingAt = timing.cue("any sound").start;
+  const CLOSING_IN = [closingAt, closingAt + CLOSING_FADE];
+  const CAPTION_OUT = [closingAt - SWAP, closingAt];
+  // Fully in just before "That is how filters work", and early enough to
+  // stay fully visible for the minimum hold before the closing line.
+  const captionFull = Math.min(
+    timing.cue("That is how filters work").start - CAPTION_LEAD,
+    CAPTION_OUT[0] - MIN_CAPTION_FRAMES,
+  );
+  const CAPTION_IN = [captionFull - CAPTION_FADE, captionFull];
+  const FINAL_FADE = [E - FINAL_FADE_LENGTH, E - 1];
+  checkCaptionHold("Filter", CAPTION, CAPTION_IN[1], CAPTION_OUT[0]);
+  checkCaptionHold("Filter", CLOSING, CLOSING_IN[1], FINAL_FADE[0]);
 
   const removed = interpolate(frame, REMOVE, [0, 1], {
     ...clamp,
@@ -73,7 +99,7 @@ export const Filter: React.FC = () => {
     <AbsoluteFill style={{ backgroundColor: COLORS.background }}>
       <AbsoluteFill style={{ opacity: fadeAll }}>
         {/* The finished Spectrum chart, with the 660 Hz gain turned down. */}
-        <Freeze frame={SPECTRUM_DURATION - 1}>
+        <Freeze frame={spectrumEnd}>
           <Spectrum gains={gains} />
         </Freeze>
 
@@ -119,7 +145,7 @@ export const Filter: React.FC = () => {
             opacity: caption,
           }}
         >
-          Remove a frequency = a filter
+          {CAPTION}
         </div>
         <div
           style={{
@@ -131,7 +157,7 @@ export const Filter: React.FC = () => {
             opacity: closing,
           }}
         >
-          Any sound = a sum of sine waves
+          {CLOSING}
         </div>
       </AbsoluteFill>
     </AbsoluteFill>

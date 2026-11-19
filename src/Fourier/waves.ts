@@ -279,6 +279,10 @@ export const METER = {
   width: 44,
   top: 600,
   zeroY: 940,
+  /** Bottom of the track; leaves room below zero for negative scores. */
+  bottom: 1020,
+  /** Inset of the fill inside the track. */
+  inset: 4,
   /** Score that fills the meter to the top. */
   max: 0.7,
 } as const;

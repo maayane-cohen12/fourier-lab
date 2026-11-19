@@ -29,25 +29,23 @@ import {
   sumValue,
   wavePath,
 } from "../waves";
+import { useSceneTiming } from "../narration/NarrationContext";
+import { checkCaptionHold } from "../narration/timing";
 
-// Timeline (frames @ 30 fps)
-export const SUM_OF_SINES_DURATION = 420; // ~14 s
-const DRAW_IN: [number, number][] = [
-  [12, 52],
-  [48, 88],
-  [84, 124],
-];
-const OPERATORS_IN = [128, 150] as const;
-const SWEEP = [156, 306] as const;
-const SCAN_OUT = [306, 320] as const;
-const DIM = [318, 345] as const;
-const GLOW = [318, 350] as const;
-const CAPTION_IN = [335, 360] as const;
-// Last 0.6 s; reaches 0 on the final frame.
-const FINAL_FADE = [
-  SUM_OF_SINES_DURATION - 18,
-  SUM_OF_SINES_DURATION - 1,
-] as const;
+// Timeline (frames @ 30 fps), synced to scene4.wav:
+//   each sine draws in on its note ("a low note", "a middle note", "a high
+//   note"); the scan sweep runs from "Add them together" to the end of
+//   "messy wave"; the sines dim, the sum glows and the caption appears on
+//   "that messy wave"; the last 0.6 s fades all but the sum wave.
+const NOTE_CUES = ["a low note", "a middle note", "a high note"];
+const DRAW_LENGTH = 36;
+const OPERATORS_LENGTH = 20;
+const SCAN_OUT_LENGTH = 14;
+const DIM_LENGTH = 27;
+const GLOW_LENGTH = 32;
+const CAPTION_FADE = 18;
+const FINAL_FADE_LENGTH = 18; // last 0.6 s; reaches 0 on the final frame
+const CAPTION = "Three simple waves → one messy sound";
 
 const BAR_WIDTH = 8;
 /** Horizontal offset between the stacked bars in the Sum row, so each stays visible. */
@@ -62,6 +60,22 @@ const OPERATORS = ["", "+", "+"];
 
 export const SumOfSines: React.FC = () => {
   const frame = useCurrentFrame();
+  const timing = useSceneTiming("SumOfSines");
+  const E = timing.durationInFrames;
+  const DRAW_IN = NOTE_CUES.map((c) => {
+    const at = timing.cue(c).start;
+    return [at, at + DRAW_LENGTH];
+  });
+  const sweepStart = timing.cue("Add them together").start;
+  const OPERATORS_IN = [sweepStart - OPERATORS_LENGTH - 4, sweepStart - 4];
+  const SWEEP = [sweepStart, timing.cue("messy wave").end];
+  const SCAN_OUT = [SWEEP[1], SWEEP[1] + SCAN_OUT_LENGTH];
+  const glowAt = timing.cue("that messy wave").start;
+  const DIM = [glowAt, glowAt + DIM_LENGTH];
+  const GLOW = [glowAt, glowAt + GLOW_LENGTH];
+  const CAPTION_IN = [glowAt, glowAt + CAPTION_FADE];
+  const FINAL_FADE = [E - FINAL_FADE_LENGTH, E - 1];
+  checkCaptionHold("SumOfSines", CAPTION, CAPTION_IN[1], FINAL_FADE[0]);
 
   // Fades out everything except the sum wave and its baseline at the very end.
   const fadeAll = interpolate(frame, FINAL_FADE, [1, 0], clamp);
@@ -324,7 +338,7 @@ export const SumOfSines: React.FC = () => {
           transform: `translateY(${(1 - captionT) * 20}px)`,
         }}
       >
-        Three simple waves → one messy sound
+        {CAPTION}
       </div>
     </AbsoluteFill>
   );

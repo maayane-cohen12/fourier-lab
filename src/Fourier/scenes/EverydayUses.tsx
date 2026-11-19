@@ -7,16 +7,19 @@ import {
   WIDTH,
   rowLabelStyle,
 } from "../waves";
+import { useSceneTiming } from "../narration/NarrationContext";
+import { checkCaptionHold } from "../narration/timing";
 
-// Timeline (frames @ 30 fps), synced to scene9.wav (~9.6 s). Each icon pops in
-// on its word: "music apps" ~2.0 s, "headphones" ~4.5 s, "Shazam" ~6.8 s.
+// Timeline (frames @ 30 fps), synced to scene9.wav. Each icon pops in on its
+// word ("music", "headphones", "Shazam"), a few frames before it is said.
 // Starts and ends on the empty background (between Filter and Recap).
-export const EVERYDAY_USES_DURATION = 330; // 11 s
+const POP_LEAD = 3; // icon starts popping this long before its word
 const POP_LENGTH = 14;
 const BAR_DELAY = 6; // bars start growing this long after their icon
 const BAR_GROW = 18;
 const BAR_STAGGER = 4;
-const ALL_OUT = [298, 320] as const;
+/** Fade to the empty background, anchored to the scene end (E). */
+const allOutRange = (E: number) => [E - 32, E - 10];
 
 const ICON_SIZE = 180; // icons are drawn in a 200 x 200 box, scaled to this
 const ROW_Y = 470; // vertical center of the icons
@@ -25,8 +28,8 @@ const BAR_GAP = 14;
 const BAR_BASE_Y = ROW_Y + ICON_SIZE / 2;
 
 type Use = {
-  /** Frame the icon starts popping in (a few frames before its word). */
-  at: number;
+  /** The narration word the icon pops in on. */
+  word: string;
   Icon: React.FC<{ color: string }>;
   label: string;
   /** Heights of the blue / orange / pink bars, in pixels. */
@@ -34,9 +37,24 @@ type Use = {
 };
 
 const USES: Use[] = [
-  { at: 57, Icon: MusicNote, label: "compress songs", bars: [120, 80, 45] },
-  { at: 132, Icon: Headphones, label: "remove hum", bars: [55, 130, 70] },
-  { at: 201, Icon: Phone, label: "recognize songs", bars: [90, 60, 115] },
+  {
+    word: "music",
+    Icon: MusicNote,
+    label: "compress songs",
+    bars: [120, 80, 45],
+  },
+  {
+    word: "headphones",
+    Icon: Headphones,
+    label: "remove hum",
+    bars: [55, 130, 70],
+  },
+  {
+    word: "Shazam",
+    Icon: Phone,
+    label: "recognize songs",
+    bars: [90, 60, 115],
+  },
 ];
 const COLUMN_X = [WIDTH / 6, WIDTH / 2, (WIDTH * 5) / 6]; // column centers
 
@@ -47,12 +65,26 @@ const clamp = {
 
 export const EverydayUses: React.FC = () => {
   const frame = useCurrentFrame();
+  const timing = useSceneTiming("EverydayUses");
+  const ALL_OUT = allOutRange(timing.durationInFrames);
+  const uses = USES.map((use) => ({
+    ...use,
+    at: timing.cue(use.word).start - POP_LEAD,
+  }));
+  for (const use of uses) {
+    checkCaptionHold(
+      "EverydayUses",
+      use.label,
+      use.at + POP_LENGTH + 6,
+      ALL_OUT[0],
+    );
+  }
   const allOut = interpolate(frame, ALL_OUT, [1, 0], clamp);
 
   return (
     <AbsoluteFill style={{ backgroundColor: COLORS.background }}>
       <svg width={WIDTH} height={HEIGHT} style={{ position: "absolute" }}>
-        {USES.map((use, i) => {
+        {uses.map((use, i) => {
           const pop = interpolate(
             frame,
             [use.at, use.at + POP_LENGTH],
@@ -119,7 +151,7 @@ export const EverydayUses: React.FC = () => {
         })}
       </svg>
 
-      {USES.map((use, i) => {
+      {uses.map((use, i) => {
         const shown = interpolate(
           frame,
           [use.at + POP_LENGTH / 2, use.at + POP_LENGTH + 6],
