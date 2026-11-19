@@ -282,3 +282,36 @@ export const METER = {
   /** Score that fills the meter to the top. */
   max: 0.7,
 } as const;
+
+// ---------------------------------------------------------------------------
+// Spectrum: one bar per component on a frequency axis
+// ---------------------------------------------------------------------------
+
+export const SPECTRUM = {
+  /** Frequency axis: 0 Hz at axisLeft, maxFreq at axisRight. */
+  axisLeft: 400,
+  axisRight: 1700,
+  maxFreq: 880,
+  baseY: 900,
+  /** Bar height for an amplitude of 1 (bar height = amplitude). */
+  pxPerAmp: 400,
+  /** Top of the strength axis, in amplitude units. */
+  maxAmp: 1.1,
+  barWidth: 80,
+  barRadius: 6,
+} as const;
+
+export const freqToX = (freq: number): number =>
+  SPECTRUM.axisLeft +
+  (freq / SPECTRUM.maxFreq) * (SPECTRUM.axisRight - SPECTRUM.axisLeft);
+
+export const ampToY = (amp: number): number =>
+  SPECTRUM.baseY - amp * SPECTRUM.pxPerAmp;
+
+/** The sound (sum wave) shown above the spectrum. */
+export const SPECTRUM_SOUND_PLOT: PlotRect = {
+  left: ROW_PLOT_LEFT,
+  width: ROW_PLOT_WIDTH,
+  centerY: 210,
+  halfHeight: 45 * MAX_SUM_AMPLITUDE,
+};
