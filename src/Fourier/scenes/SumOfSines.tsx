@@ -186,7 +186,7 @@ export const SumOfSines: React.FC = () => {
             <path
               d={tracePath}
               fill="none"
-              stroke={COLORS.sumTrace}
+              stroke={COLORS.sum}
               strokeWidth={14}
               opacity={0.55 * glow}
               filter="url(#sumGlow)"
@@ -194,7 +194,7 @@ export const SumOfSines: React.FC = () => {
             <path
               d={tracePath}
               fill="none"
-              stroke={COLORS.sumTrace}
+              stroke={COLORS.sum}
               strokeWidth={4 + glow}
               strokeLinejoin="round"
               strokeLinecap="round"
@@ -259,7 +259,7 @@ export const SumOfSines: React.FC = () => {
               cx={scanX}
               cy={sumY(sumAtScan)}
               r={10}
-              fill={COLORS.sumTrace}
+              fill={COLORS.sum}
               stroke={COLORS.background}
               strokeWidth={3}
             />

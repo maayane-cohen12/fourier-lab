@@ -15,8 +15,7 @@ export const COLORS = {
   text: "#e8eefc",
   textDim: "#8fa0c8",
   axis: "#2a3a66",
-  sum: "#7fe3ff", // scene 1 wave and the faint Sum outline
-  sumTrace: "#ffffff", // the sum rebuilt from its parts in scene 2
+  sum: "#ffffff", // the sum wave, in every scene (full, outline and trace)
   sample: "#ffd479",
   scan: "#c9d6f5",
   // 220, 440, 660 Hz
@@ -127,7 +126,7 @@ export const FULLSCREEN_PLOT: PlotRect = {
  * and ONE vertical scale (PX_PER_UNIT), so values can be compared and
  * stacked across rows.
  */
-export const PX_PER_UNIT = 55;
+export const PX_PER_UNIT = 77;
 export const ROW_HALF_HEIGHT = PX_PER_UNIT * MAX_SUM_AMPLITUDE;
 export const ROW_PLOT_LEFT = 300;
 export const ROW_PLOT_WIDTH = WIDTH - ROW_PLOT_LEFT - 100;
