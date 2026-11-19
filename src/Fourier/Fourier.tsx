@@ -6,6 +6,7 @@ import { SUM_OF_SINES_DURATION, SumOfSines } from "./scenes/SumOfSines";
 import { SPLIT_BACK_DURATION, SplitBack } from "./scenes/SplitBack";
 import { HOW_IT_FINDS_DURATION, HowItFinds } from "./scenes/HowItFinds";
 import { SPECTRUM_DURATION, Spectrum } from "./scenes/Spectrum";
+import { FILTER_DURATION, Filter } from "./scenes/Filter";
 
 /** Scenes in order. Add new scenes here and they flow into the full video. */
 export const SCENES = [
@@ -22,6 +23,7 @@ export const SCENES = [
     duration: HOW_IT_FINDS_DURATION,
   },
   { id: "Spectrum", component: Spectrum, duration: SPECTRUM_DURATION },
+  { id: "Filter", component: Filter, duration: FILTER_DURATION },
 ] as const;
 
 export const FOURIER_DURATION = SCENES.reduce((a, s) => a + s.duration, 0);

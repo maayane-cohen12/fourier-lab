@@ -45,8 +45,24 @@ const clamp = {
 
 const smallLabel: React.CSSProperties = { ...rowLabelStyle, fontSize: 30 };
 
-export const Spectrum: React.FC = () => {
+export type SpectrumProps = {
+  /**
+   * Per-component gain (220, 440, 660 Hz), scaling both its bar and its share
+   * of the Sound wave. Omitted = the untouched spectrum. Used by Filter.
+   */
+  gains?: readonly number[];
+};
+
+export const Spectrum: React.FC<SpectrumProps> = ({ gains }) => {
   const frame = useCurrentFrame();
+  const gain = (i: number) => (gains ? gains[i] : 1);
+  const sound = gains
+    ? (u: number) =>
+        COMPONENTS.reduce(
+          (acc, c, i) => acc + gain(i) * componentValue(c, u),
+          0,
+        )
+    : sumValue;
 
   const freqAxis = interpolate(frame, FREQ_AXIS_IN, [0, 1], clamp);
   const strengthAxis = interpolate(frame, STRENGTH_AXIS_IN, [0, 1], {
@@ -118,7 +134,7 @@ export const Spectrum: React.FC = () => {
           const top = interpolate(
             drop,
             [0, 1],
-            [row.centerY - c.amp * PX_PER_UNIT, ampToY(c.amp)],
+            [row.centerY - c.amp * PX_PER_UNIT, ampToY(c.amp * gain(i))],
           );
           const bottom = interpolate(
             drop,
@@ -229,7 +245,7 @@ export const Spectrum: React.FC = () => {
               opacity={soundT}
             />
             <path
-              d={wavePath(sumValue, SPECTRUM_SOUND_PLOT, 0, soundT)}
+              d={wavePath(sound, SPECTRUM_SOUND_PLOT, 0, soundT)}
               fill="none"
               stroke={COLORS.sum}
               strokeWidth={SUM_STROKE}
