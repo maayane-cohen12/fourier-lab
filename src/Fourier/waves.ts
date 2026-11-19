@@ -163,6 +163,16 @@ export const rowLabelPosition = (centerY: number): React.CSSProperties => ({
 export const SUM_OUTLINE_OPACITY = 0.28;
 export const SUM_OUTLINE_STROKE = 3;
 
+/** Stroke of the solid sum wave; it thickens slightly while glowing. */
+export const SUM_STROKE = 4;
+export const SUM_STROKE_GLOWING = 5;
+/** Blurred halo drawn under the glowing sum wave. */
+export const SUM_GLOW_STROKE = 14;
+export const SUM_GLOW_OPACITY = 0.55;
+
+/** Stroke of each clean component sine. */
+export const COMPONENT_STROKE = 4;
+
 // ---------------------------------------------------------------------------
 // Path helpers
 // ---------------------------------------------------------------------------

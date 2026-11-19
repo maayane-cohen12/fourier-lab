@@ -3,6 +3,7 @@ import { AbsoluteFill, Series } from "remotion";
 import { COLORS } from "./waves";
 import { MESSY_WAVE_DURATION, MessyWave } from "./scenes/MessyWave";
 import { SUM_OF_SINES_DURATION, SumOfSines } from "./scenes/SumOfSines";
+import { SPLIT_BACK_DURATION, SplitBack } from "./scenes/SplitBack";
 
 /** Scenes in order. Add new scenes here and they flow into the full video. */
 export const SCENES = [
@@ -12,6 +13,7 @@ export const SCENES = [
     component: SumOfSines,
     duration: SUM_OF_SINES_DURATION,
   },
+  { id: "SplitBack", component: SplitBack, duration: SPLIT_BACK_DURATION },
 ] as const;
 
 export const FOURIER_DURATION = SCENES.reduce((a, s) => a + s.duration, 0);

@@ -4,6 +4,7 @@ import {
   BASELINE_STROKE,
   COLORS,
   COMPONENTS,
+  COMPONENT_STROKE,
   COMPONENT_ROW_PLOTS,
   DIVIDER_Y,
   GLOW_BLUR,
@@ -14,7 +15,11 @@ import {
   ROW_PLOT_LEFT,
   ROW_PLOT_WIDTH,
   SUM_OUTLINE_OPACITY,
+  SUM_GLOW_OPACITY,
+  SUM_GLOW_STROKE,
   SUM_OUTLINE_STROKE,
+  SUM_STROKE,
+  SUM_STROKE_GLOWING,
   SUM_ROW_PLOT,
   WIDTH,
   captionStyle,
@@ -141,7 +146,7 @@ export const SumOfSines: React.FC = () => {
                   )}
                   fill="none"
                   stroke={color}
-                  strokeWidth={4}
+                  strokeWidth={COMPONENT_STROKE}
                   strokeLinejoin="round"
                   strokeLinecap="round"
                   opacity={sineDim}
@@ -187,15 +192,19 @@ export const SumOfSines: React.FC = () => {
               d={tracePath}
               fill="none"
               stroke={COLORS.sum}
-              strokeWidth={14}
-              opacity={0.55 * glow}
+              strokeWidth={SUM_GLOW_STROKE}
+              opacity={SUM_GLOW_OPACITY * glow}
               filter="url(#sumGlow)"
             />
             <path
               d={tracePath}
               fill="none"
               stroke={COLORS.sum}
-              strokeWidth={4 + glow}
+              strokeWidth={interpolate(
+                glow,
+                [0, 1],
+                [SUM_STROKE, SUM_STROKE_GLOWING],
+              )}
               strokeLinejoin="round"
               strokeLinecap="round"
             />
